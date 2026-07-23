@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Account | Manaal Water</title>
+<link rel="icon" href="assets/logo.png">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container">
+    <a href="index.html" class="brand">
+      <img src="assets/logo.png" alt="Manaal Water logo">
+      <span class="brand-name">MANAAL <span>WATER</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html#process">Our Process</a></li>
+      <li><a href="index.html#products">Plans &amp; Pricing</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="order.html" class="btn btn-primary btn-sm">Order Water</a>
+    </div>
+    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+  </div>
+</nav>
+
+<header class="page-hero">
+  <div class="container">
+    <span class="eyebrow">Account</span>
+    <h1>Log in or create your account</h1>
+    <p>Save your address and payment preference once, then reorder your usual bottles in a couple of taps.</p>
+  </div>
+</header>
+
+<section class="section">
+  <div class="container narrow">
+    <div class="form-shell">
+      <div class="tabbar">
+        <button class="active" data-tab="login-panel">Log in</button>
+        <button data-tab="signup-panel">Create account</button>
+      </div>
+
+      <div class="tab-panel" id="login-panel">
+        <form class="demo-form">
+          <div class="field"><label for="loginPhone">Phone number</label><input id="loginPhone" required placeholder="03XX-XXXXXXX"></div>
+          <div class="field"><label for="loginPass">Password</label><input id="loginPass" type="password" required placeholder="••••••••"></div>
+          <button type="submit" class="btn btn-primary btn-block">Log in</button>
+          <p class="form-note" style="display:none; font-size:.85rem; margin-top:12px; text-align:center;">This is a design prototype — log-in isn't wired to a real account system yet. See the launch guide for adding that.</p>
+        </form>
+      </div>
+
+      <div class="tab-panel" id="signup-panel" style="display:none;">
+        <form class="demo-form">
+          <div class="field-row">
+            <div class="field"><label for="suName">Full name</label><input id="suName" required></div>
+            <div class="field"><label for="suPhone">Phone / WhatsApp</label><input id="suPhone" required></div>
+          </div>
+          <div class="field"><label for="suAddress">Default delivery address</label><textarea id="suAddress" rows="2"></textarea></div>
+          <div class="field"><label for="suPass">Create password</label><input id="suPass" type="password" required></div>
+          <div class="field">
+            <label for="suPay">Preferred payment method</label>
+            <select id="suPay">
+              <option>Cash on Delivery</option>
+              <option>Bank Transfer</option>
+              <option>JazzCash / EasyPaisa</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">Create free account</button>
+          <p class="form-note" style="display:none; font-size:.85rem; margin-top:12px; text-align:center;">This is a design prototype — sign-up isn't wired to real storage yet. See the launch guide for adding that.</p>
+        </form>
+      </div>
+    </div>
+
+    <div class="grid-3 mt-lg" style="grid-template-columns:repeat(3,1fr);">
+      <div class="card"><div class="icon-tile">↻</div><h4>Faster reorders</h4><p>Your usual quantity and address are ready — reorder in one tap.</p></div>
+      <div class="card"><div class="icon-tile">📍</div><h4>Saved addresses</h4><p>Store home, office, or a second address for family.</p></div>
+      <div class="card"><div class="icon-tile">🧾</div><h4>Order history</h4><p>See past deliveries and receipts whenever you need them.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-bottom">
+      <span>© 2026 Manaal Water &amp; Services. All rights reserved.</span>
+      <span><a href="index.html">Back to home</a></span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/app.js"></script>
+</body>
+</html>
