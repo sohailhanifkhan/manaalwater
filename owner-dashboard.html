@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Owner Dashboard | Manaal Water</title>
+<link rel="icon" href="assets/logo.png">
+<link rel="stylesheet" href="assets/style.css">
+<meta name="robots" content="noindex, nofollow">
+<style>
+  .dash-wrap{ max-width:900px; margin:0 auto; padding:40px 20px 80px; }
+  .dash-login{ max-width:380px; margin:80px auto; }
+  .order-card{ background:#fff; border:1px solid var(--line); border-radius:14px; padding:18px 20px; margin-bottom:14px; box-shadow:var(--shadow-sm); }
+  .order-top{ display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap; }
+  .order-top h4{ font-size:1rem; margin-bottom:2px; }
+  .order-time{ font-size:.76rem; color:var(--ink-soft); }
+  .order-detail{ font-size:.87rem; color:var(--ink-soft); margin:2px 0; }
+  .order-detail strong{ color:var(--deep); }
+  .status-pill{ font-size:.72rem; font-weight:700; padding:4px 12px; border-radius:999px; text-transform:uppercase; letter-spacing:.03em; }
+  .status-Pending{ background:rgba(227,169,62,.18); color:#96700f; }
+  .status-Delivered{ background:rgba(0,194,168,.15); color:#0a8a76; }
+  .order-actions{ margin-top:12px; display:flex; gap:10px; }
+  .dash-header{ display:flex; justify-content:space-between; align-items:center; margin-bottom:24px; flex-wrap:wrap; gap:12px; }
+  .maps-link{ font-size:.82rem; }
+  .empty-state{ text-align:center; color:var(--ink-soft); padding:60px 20px; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container">
+    <a href="index.html" class="brand">
+      <img src="assets/logo.png" alt="Manaal Water logo">
+      <span class="brand-name">MANAAL <span>WATER</span></span>
+    </a>
+    <div class="nav-actions">
+      <span style="font-size:.8rem; color:var(--ink-soft);">Owner Dashboard</span>
+    </div>
+  </div>
+</nav>
+
+<div class="dash-wrap">
+
+  <div id="dashLoginView" class="form-shell dash-login">
+    <h3>Owner Login</h3>
+    <p style="margin-bottom:18px; font-size:.88rem;">This page is private — only the Manaal Water owner account can see incoming orders here.</p>
+    <div id="dashError" class="badge-note" style="display:none; margin-bottom:16px; border-color:#e0a; color:#a33;"></div>
+    <form id="dashLoginForm">
+      <div class="field"><label for="dashEmail">Email</label><input id="dashEmail" type="email" required></div>
+      <div class="field"><label for="dashPass">Password</label><input id="dashPass" type="password" required></div>
+      <button type="submit" class="btn btn-primary btn-block">Log in</button>
+    </form>
+  </div>
+
+  <div id="dashMainView" style="display:none;">
+    <div class="dash-header">
+      <h2 style="margin:0;">Incoming Orders</h2>
+      <div style="display:flex; gap:10px; align-items:center;">
+        <span id="orderCount" style="font-size:.85rem; color:var(--ink-soft);"></span>
+        <button id="dashLogoutBtn" class="btn btn-outline btn-sm">Log out</button>
+      </div>
+    </div>
+    <div id="ordersList"></div>
+  </div>
+
+</div>
+
+<!-- Firebase (compat SDK, no build tools needed) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="assets/firebase-init.js"></script>
+<script src="assets/dashboard.js"></script>
+</body>
+</html>
