@@ -1631,6 +1631,22 @@ if (
         document.getElementById(
           'area'
         )?.value || '-';
+      const deliveryDate =
+  document.getElementById(
+    'deliveryDate'
+  )?.value || '-';
+
+
+const deliveryTime =
+  document.getElementById(
+    'deliveryTime'
+  )?.value || '-';
+
+
+const deliveryInstructions =
+  document.getElementById(
+    'deliveryInstructions'
+  )?.value.trim() || 'None';
 
 
       const total =
@@ -1702,6 +1718,16 @@ if (
 
       msg +=
         `*Area:* ${area}\n`;
+      msg +=
+  `*Preferred Delivery Date:* ${deliveryDate}\n`;
+
+
+msg +=
+  `*Preferred Delivery Time:* ${deliveryTime}\n`;
+
+
+msg +=
+  `*Delivery Instructions:* ${deliveryInstructions}\n`;
 
 
       msg +=
