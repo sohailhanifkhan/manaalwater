@@ -166,6 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function updateSummary() {
     if (!summaryItemsEl) return;
     const lines = cartLines();
+    
     if (!lines.length) {
       summaryItemsEl.innerHTML = '<p style="font-size:.85rem; color:var(--ink-soft); margin:0;">No items added yet.</p>';
       if (totalEl) totalEl.textContent = 'Rs. 0';
@@ -353,6 +354,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (typeof db === 'undefined') return;
     try {
       const lines = cartLines();
+      
+      const subtotalAmount = lines.reduce((sum, { product, qty }) => sum + (product.price * qty), 0);
+      const discountPercent = appliedPromo ? appliedPromo.percent : 0;
+      const totalAmount = Number((document.getElementById('total')?.textContent || '').replace(/[^\d.]/g, '')) || 0;
+      const discountAmount = Math.max(0, subtotalAmount - totalAmount);
+      
       db.collection('orders').add({
         uid: (typeof auth !== 'undefined' && auth.currentUser) ? auth.currentUser.uid : null,
         name: document.getElementById('name')?.value.trim() || '',
@@ -366,6 +373,10 @@ document.addEventListener('DOMContentLoaded', () => {
           lineTotal: product.price * qty
         })),
         total: document.getElementById('total')?.textContent || '',
+        subtotalAmount: subtotalAmount,
+        discountAmount: discountAmount,
+        deliveryFee: 0,
+        totalAmount: totalAmount,
         promoCode: appliedPromo ? appliedPromo.code : null,
         discountPercent: appliedPromo ? appliedPromo.percent : 0,
         payMethod: (document.querySelector('input[name="payMethod"]:checked')?.closest('.pay-option')?.querySelector('strong')?.textContent) || '',
