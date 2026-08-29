@@ -1256,10 +1256,38 @@ if (
                 }
 
 
-                localStorage.removeItem(
-                  'manaalReorder'
-                );
+                const deliveryTimeField =
+  document.getElementById(
+    'deliveryTime'
+  );
 
+
+if (
+  deliveryTimeField &&
+  reorderData.deliveryTime
+) {
+
+  deliveryTimeField.value =
+    reorderData.deliveryTime;
+
+}
+
+
+const deliveryInstructionsField =
+  document.getElementById(
+    'deliveryInstructions'
+  );
+
+
+if (
+  deliveryInstructionsField &&
+  reorderData.deliveryInstructions
+) {
+
+  deliveryInstructionsField.value =
+    reorderData.deliveryInstructions;
+
+}
               }
 
             } catch (e) {
