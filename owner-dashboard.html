@@ -26,6 +26,72 @@
   .dash-header{ display:flex; justify-content:space-between; align-items:center; margin-bottom:24px; flex-wrap:wrap; gap:12px; }
   .maps-link{ font-size:.82rem; }
   .empty-state{ text-align:center; color:var(--ink-soft); padding:60px 20px; }
+  .dash-stats{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:12px;
+  margin-bottom:24px;
+}
+
+.stat-card{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:18px;
+  box-shadow:var(--shadow-sm);
+}
+
+.stat-label{
+  font-size:.72rem;
+  color:var(--ink-soft);
+  text-transform:uppercase;
+  letter-spacing:.04em;
+  margin-bottom:7px;
+}
+
+.stat-value{
+  font-size:1.55rem;
+  font-weight:800;
+  color:var(--deep);
+}
+
+.dash-tools{
+  display:flex;
+  gap:12px;
+  margin-bottom:20px;
+  flex-wrap:wrap;
+}
+
+.dash-search{
+  flex:1;
+  min-width:220px;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:11px 14px;
+  font:inherit;
+}
+
+.dash-filter{
+  min-width:170px;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:11px 14px;
+  font:inherit;
+}
+
+@media (max-width:800px){
+  .dash-stats{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+@media (max-width:480px){
+  .dash-stats{
+    grid-template-columns:1fr;
+  }
+}
 </style>
 </head>
 <body>
@@ -55,16 +121,75 @@
     </form>
   </div>
 
-  <div id="dashMainView" style="display:none;">
-    <div class="dash-header">
-      <h2 style="margin:0;">Incoming Orders</h2>
-      <div style="display:flex; gap:10px; align-items:center;">
-        <span id="orderCount" style="font-size:.85rem; color:var(--ink-soft);"></span>
-        <button id="dashLogoutBtn" class="btn btn-outline btn-sm">Log out</button>
-      </div>
+<div id="dashMainView" style="display:none;">
+
+  <div class="dash-header">
+    <div>
+      <h2 style="margin:0;">Operations Dashboard</h2>
+      <p style="margin:5px 0 0; font-size:.85rem; color:var(--ink-soft);">
+        Live Manaal Water orders and delivery operations
+      </p>
     </div>
-    <div id="ordersList"></div>
+
+    <div style="display:flex; gap:10px; align-items:center;">
+      <span id="orderCount" style="font-size:.85rem; color:var(--ink-soft);"></span>
+      <button id="dashLogoutBtn" class="btn btn-outline btn-sm">Log out</button>
+    </div>
   </div>
+
+  <div class="dash-stats">
+
+    <div class="stat-card">
+      <div class="stat-label">Today's Orders</div>
+      <div id="statToday" class="stat-value">0</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-label">Pending</div>
+      <div id="statPending" class="stat-value">0</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-label">In Progress</div>
+      <div id="statProgress" class="stat-value">0</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-label">Delivered</div>
+      <div id="statDelivered" class="stat-value">0</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-label">Today's Revenue</div>
+      <div id="statRevenue" class="stat-value">Rs. 0</div>
+    </div>
+
+  </div>
+
+  <div class="dash-tools">
+
+    <input
+      id="orderSearch"
+      class="dash-search"
+      type="search"
+      placeholder="Search order no., customer, phone, address..."
+      autocomplete="off"
+    >
+
+    <select id="statusFilter" class="dash-filter">
+      <option value="All">All Statuses</option>
+      <option value="Pending">Pending</option>
+      <option value="Confirmed">Confirmed</option>
+      <option value="Preparing">Preparing</option>
+      <option value="Out for Delivery">Out for Delivery</option>
+      <option value="Delivered">Delivered</option>
+    </select>
+
+  </div>
+
+  <div id="ordersList"></div>
+
+</div>
 
 </div>
 
