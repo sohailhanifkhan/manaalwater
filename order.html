@@ -80,7 +80,106 @@
           </select>
         </div>
 
-        <h3 style="margin-top:34px;">2. Choose your products</h3>
+        <!-- Delivery Schedule -->
+
+<h3 style="margin-top:34px;">
+  2. Delivery schedule
+</h3>
+
+<p
+  style="
+    font-size:.85rem;
+    color:var(--ink-soft);
+    margin-top:-8px;
+    margin-bottom:16px;
+  "
+>
+  Choose when you would prefer your water to be delivered.
+</p>
+
+
+<div class="field-row">
+
+  <div class="field">
+
+    <label for="deliveryDate">
+      Preferred delivery date
+    </label>
+
+    <input
+      id="deliveryDate"
+      type="date"
+      required
+    >
+
+  </div>
+
+
+  <div class="field">
+
+    <label for="deliveryTime">
+      Preferred time
+    </label>
+
+    <select
+      id="deliveryTime"
+      required
+    >
+
+      <option value="">
+        Select a time
+      </option>
+
+      <option value="9:00 AM - 12:00 PM">
+        Morning · 9:00 AM - 12:00 PM
+      </option>
+
+      <option value="12:00 PM - 3:00 PM">
+        Afternoon · 12:00 PM - 3:00 PM
+      </option>
+
+      <option value="3:00 PM - 6:00 PM">
+        Evening · 3:00 PM - 6:00 PM
+      </option>
+
+      <option value="6:00 PM - 8:00 PM">
+        Late Evening · 6:00 PM - 8:00 PM
+      </option>
+
+    </select>
+
+  </div>
+
+</div>
+
+
+<div class="field">
+
+  <label for="deliveryInstructions">
+    Delivery instructions
+    <span style="font-weight:400; color:var(--ink-soft);">
+      (optional)
+    </span>
+  </label>
+
+  <textarea
+    id="deliveryInstructions"
+    rows="3"
+    maxlength="250"
+    placeholder="Example: Call before arrival, use side gate, office reception..."
+  ></textarea>
+
+</div>
+
+
+<div
+  class="badge-note"
+  style="margin-top:8px;"
+>
+  🚚 Preferred delivery times are subject to route availability.
+  Our team will confirm the final delivery timing when your order is confirmed.
+</div>
+        <h3 style="margin-top:34px;">3. Choose your products</h3>
         <p style="font-size:.85rem; color:var(--ink-soft); margin-top:-8px; margin-bottom:14px;">Add as many items as you like — use the + / − on each one.</p>
         <div class="field">
           <div id="productGrid" class="product-grid">
@@ -88,7 +187,7 @@
           </div>
         </div>
 
-        <h3 style="margin-top:34px;">3. Payment method</h3>
+        <h3 style="margin-top:34px;">4. Payment method</h3>
         <div class="pay-options">
           <label class="pay-option">
             <input type="radio" name="payMethod" value="cod" checked>
@@ -121,7 +220,7 @@
           <div class="badge-note">💳 Card payments are being set up. For now, please choose Cash on Delivery, Bank Transfer, or Wallet.</div>
         </div>
 
-        <h3 style="margin-top:34px;">4. Promo code (optional)</h3>
+        <h3 style="margin-top:34px;">5. Promo code (optional)</h3>
         <div class="field" style="display:flex; gap:10px; align-items:flex-end;">
           <div style="flex:1;">
             <input id="promoCode" placeholder="e.g. FRESH10" style="text-transform:uppercase;">
