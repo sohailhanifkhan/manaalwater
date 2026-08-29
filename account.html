@@ -177,7 +177,48 @@
         <div class="summary-row"><span>Preferred payment</span><span id="profPay">—</span></div>
       </div>
       <a href="order.html" class="btn btn-primary btn-block">Reorder now</a>
+      <button id="editProfileBtn" class="btn btn-outline btn-block" style="margin-top:12px;">
+  Edit profile
+</button>
       <button id="logoutBtn" class="btn btn-outline btn-block" style="margin-top:12px;">Log out</button>
+      <div id="editProfilePanel" class="summary-box" style="display:none; margin-top:18px;">
+
+  <h3 style="margin-top:0;">Edit your profile</h3>
+
+  <form id="editProfileForm">
+
+    <label class="form-label" for="editName">Name</label>
+    <input id="editName" class="form-input" type="text" required>
+
+    <label class="form-label" for="editPhone">Phone</label>
+    <input id="editPhone" class="form-input" type="tel" required>
+
+    <label class="form-label" for="editAddress">Primary address</label>
+    <input id="editAddress" class="form-input" type="text" required>
+
+    <label class="form-label" for="editPay">Preferred payment</label>
+    <select id="editPay" class="form-input">
+      <option value="Cash on Delivery">Cash on Delivery</option>
+      <option value="Bank Transfer">Bank Transfer</option>
+    </select>
+
+    <div style="display:flex; gap:10px; margin-top:16px;">
+
+      <button type="submit" class="btn btn-primary">
+        Save changes
+      </button>
+
+      <button type="button" id="cancelEditProfile" class="btn btn-outline">
+        Cancel
+      </button>
+
+    </div>
+
+  </form>
+
+  <div id="editProfileMsg" style="display:none; margin-top:12px; font-size:.8rem;"></div>
+
+</div>
       <div id="accountStats" style="display:none; margin-top:28px;">
   <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:10px;">
     
