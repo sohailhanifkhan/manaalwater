@@ -360,8 +360,21 @@ document.addEventListener('DOMContentLoaded', () => {
       const discountAmount = Math.round((subtotalAmount * discountPercent / 100) * 100) / 100;
       const deliveryFee = 0;
       const totalAmount = Math.max(0, subtotalAmount - discountAmount + deliveryFee);
-      
+
+      const now = new Date();
+      const pad2 = (n) => String(n).padStart(2, '0');
+      const orderNumber =
+      'MW-' +
+      String(now.getFullYear()).slice(-2) +
+      pad2(now.getMonth() + 1) +
+      pad2(now.getDate()) +
+      '-' +
+      pad2(now.getHours()) +
+      pad2(now.getMinutes()) +
+      pad2(now.getSeconds());
+            
       db.collection('orders').add({
+        orderNumber: orderNumber,
         uid: (typeof auth !== 'undefined' && auth.currentUser) ? auth.currentUser.uid : null,
         name: document.getElementById('name')?.value.trim() || '',
         phone: document.getElementById('phone')?.value.trim() || '',
