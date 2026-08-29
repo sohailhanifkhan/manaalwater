@@ -316,7 +316,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const orderConfirm = document.getElementById('orderConfirm');
   const placeOrderBtn = document.getElementById('placeOrderBtn');
 
-  function buildOrderMessage(mapsLink) {
+  function buildOrderMessage(mapsLink, orderNumber) {
     const name = document.getElementById('name')?.value.trim() || '-';
     const phone = document.getElementById('phone')?.value.trim() || '-';
     const address = document.getElementById('address')?.value.trim() || '-';
@@ -329,7 +329,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const payMethod = document.querySelector('input[name="payMethod"]:checked');
     const payLabel = payMethod ? payMethod.closest('.pay-option').querySelector('strong').textContent : '-';
 
-    let msg = `*New Order — Manaal Water* 💧\n\n`;
+    let msg = `*MANAAL WATER — NEW ORDER* 💧\n\n`;
+    msg += `*Order No:* ${orderNumber}\n\n`;
     msg += `*Name:* ${name}\n`;
     msg += `*Phone:* ${phone}\n`;
     msg += `*Address:* ${address}\n`;
@@ -348,7 +349,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return msg;
   }
 
-  function saveOrderToFirestore(mapsLink) {
+  function saveOrderToFirestore(mapsLink, orderNumber) {
     // Best-effort save — if Firebase isn't loaded on this page for any reason,
     // the WhatsApp order flow below still works fine on its own.
     if (typeof db === 'undefined') return;
@@ -360,19 +361,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const discountAmount = Math.round((subtotalAmount * discountPercent / 100) * 100) / 100;
       const deliveryFee = 0;
       const totalAmount = Math.max(0, subtotalAmount - discountAmount + deliveryFee);
-
-      const now = new Date();
-      const pad2 = (n) => String(n).padStart(2, '0');
-      const orderNumber =
-      'MW-' +
-      String(now.getFullYear()).slice(-2) +
-      pad2(now.getMonth() + 1) +
-      pad2(now.getDate()) +
-      '-' +
-      pad2(now.getHours()) +
-      pad2(now.getMinutes()) +
-      pad2(now.getSeconds());
-            
+      
       db.collection('orders').add({
         orderNumber: orderNumber,
         uid: (typeof auth !== 'undefined' && auth.currentUser) ? auth.currentUser.uid : null,
@@ -403,9 +392,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  function sendToWhatsApp(mapsLink) {
-    saveOrderToFirestore(mapsLink);
-    const message = buildOrderMessage(mapsLink);
+function sendToWhatsApp(mapsLink) {
+  const now = new Date();
+  const pad2 = (n) => String(n).padStart(2, '0');
+  const orderNumber =
+    'MW-' +
+    String(now.getFullYear()).slice(-2) +
+    pad2(now.getMonth() + 1) +
+    pad2(now.getDate()) +
+    '-' +
+    pad2(now.getHours()) +
+    pad2(now.getMinutes()) +
+    pad2(now.getSeconds());
+
+  saveOrderToFirestore(mapsLink, orderNumber);
+  const message = buildOrderMessage(mapsLink, orderNumber);
     const url = `https://wa.me/${OWNER_WHATSAPP}?text=${encodeURIComponent(message)}`;
     // Direct navigation instead of window.open() — popups triggered from an
     // async callback (after the geolocation prompt) get blocked or opened
