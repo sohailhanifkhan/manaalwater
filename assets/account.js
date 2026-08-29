@@ -470,12 +470,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
 
 
-                <button
-                  type="button"
-                  class="btn btn-outline btn-sm reorder-history-btn"
-                  data-order-index="${index}">
-                  Order Again
-                </button>
+                <a
+  href="track-order.html?order=${encodeURIComponent(order.orderNumber || '')}"
+  class="btn btn-outline btn-sm">
+  Track Order
+</a>
+
+<button
+  type="button"
+  class="btn btn-outline btn-sm reorder-btn"
+  data-id="${order.id}">
+  Order Again
+</button>
 
               </div>
 
