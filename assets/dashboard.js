@@ -102,6 +102,42 @@ document.addEventListener('DOMContentLoaded', () => {
   // MONEY HELPER
   // --------------------------------------------------
 
+    // --------------------------------------------------
+  // CUSTOMER CONTACT HELPERS
+  // --------------------------------------------------
+
+  function cleanPhone(phone) {
+
+    return String(phone || '')
+      .replace(/[^\d+]/g, '');
+
+  }
+
+
+  function phoneForWhatsApp(phone) {
+
+    let cleaned =
+      cleanPhone(phone)
+        .replace(/\+/g, '');
+
+
+    // Pakistan local number:
+    // 03465080415 → 923465080415
+
+    if (
+      cleaned.startsWith('0') &&
+      cleaned.length >= 10
+    ) {
+
+      cleaned =
+        '92' + cleaned.slice(1);
+
+    }
+
+
+    return cleaned;
+
+  }
   function amountFromOrder(o) {
 
     if (
@@ -301,7 +337,62 @@ document.addEventListener('DOMContentLoaded', () => {
                  style="color:var(--ink-soft);">
                  📍 Location not shared
                </span>`;
+        const rawPhone =
+          o.phone || '';
 
+
+        const callPhone =
+          cleanPhone(rawPhone);
+
+
+        const whatsappPhone =
+          phoneForWhatsApp(rawPhone);
+
+
+        const whatsappMessage =
+          encodeURIComponent(
+            `Hello ${o.name || 'Customer'}, this is Manaal Water regarding your order ${o.orderNumber || id}.`
+          );
+
+
+        const whatsappHtml =
+          whatsappPhone
+
+            ? `<a
+                 class="action-link action-whatsapp"
+                 href="https://wa.me/${whatsappPhone}?text=${whatsappMessage}"
+                 target="_blank"
+                 rel="noopener">
+                 💬 WhatsApp
+               </a>`
+
+            : '';
+
+
+        const callHtml =
+          callPhone
+
+            ? `<a
+                 class="action-link"
+                 href="tel:${callPhone}">
+                 📞 Call
+               </a>`
+
+            : '';
+
+
+        const mapButtonHtml =
+          o.mapsLink
+
+            ? `<a
+                 class="action-link action-map"
+                 href="${o.mapsLink}"
+                 target="_blank"
+                 rel="noopener">
+                 📍 Open Map
+               </a>`
+
+            : '';
 
         let itemsHtml;
 
@@ -369,52 +460,92 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
 
 
-            <div class="order-detail">
+                        <div class="order-body">
 
-              <strong>Phone:</strong>
-              ${o.phone || '-'}
+              <div class="order-section">
+
+                <div class="order-detail">
+
+                  <strong>Items:</strong><br>
+
+                  ${itemsHtml}
+
+                </div>
+
+
+                <div class="order-finance">
+
+                  <div class="order-detail">
+                    <strong>Payment:</strong>
+                    ${o.payMethod || '-'}
+                  </div>
+
+                  <div class="order-total-big">
+                    ${o.total || 'Rs. 0'}
+                  </div>
+
+                </div>
+
+              </div>
+
+
+              <div class="order-side">
+
+                <div class="order-side-title">
+                  Customer & Delivery
+                </div>
+
+
+                <div class="order-detail">
+
+                  <strong>Customer:</strong>
+                  ${o.name || '-'}
+
+                </div>
+
+
+                <div class="order-detail">
+
+                  <strong>Phone:</strong>
+                  ${o.phone || '-'}
+
+                </div>
+
+
+                <div class="order-detail">
+
+                  <strong>Address:</strong>
+                  ${o.address || '-'}
+
+                </div>
+
+
+                <div class="order-detail">
+
+                  <strong>Area:</strong>
+                  ${o.area || '-'}
+
+                </div>
+
+
+                <div class="order-detail">
+                  ${mapsHtml}
+                </div>
+
+
+                <div class="customer-actions">
+
+                  ${whatsappHtml}
+
+                  ${callHtml}
+
+                  ${mapButtonHtml}
+
+                </div>
+
+              </div>
 
             </div>
-
-
-            <div class="order-detail">
-
-              <strong>Address:</strong>
-              ${o.address || '-'}
-
-              ${o.area ? '(' + o.area + ')' : ''}
-
-            </div>
-
-
-            <div class="order-detail">
-
-              <strong>Items:</strong><br>
-
-              ${itemsHtml}
-
-            </div>
-
-
-            <div class="order-detail">
-
-              <strong>Total:</strong>
-              ${o.total || '-'}
-
-              &nbsp;
-
-              <strong>Payment:</strong>
-              ${o.payMethod || '-'}
-
-            </div>
-
-
-            <div class="order-detail">
-              ${mapsHtml}
-            </div>
-
-
-            <div class="order-actions">
 
               ${
                 status === 'Pending'
