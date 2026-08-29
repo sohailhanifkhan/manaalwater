@@ -357,8 +357,9 @@ document.addEventListener('DOMContentLoaded', () => {
       
       const subtotalAmount = lines.reduce((sum, { product, qty }) => sum + (product.price * qty), 0);
       const discountPercent = appliedPromo ? appliedPromo.percent : 0;
-      const totalAmount = Number((document.getElementById('total')?.textContent || '').replace(/[^\d.]/g, '')) || 0;
-      const discountAmount = Math.max(0, subtotalAmount - totalAmount);
+      const discountAmount = Math.round((subtotalAmount * discountPercent / 100) * 100) / 100;
+      const deliveryFee = 0;
+      const totalAmount = Math.max(0, subtotalAmount - discountAmount + deliveryFee);
       
       db.collection('orders').add({
         uid: (typeof auth !== 'undefined' && auth.currentUser) ? auth.currentUser.uid : null,
@@ -375,10 +376,10 @@ document.addEventListener('DOMContentLoaded', () => {
         total: document.getElementById('total')?.textContent || '',
         subtotalAmount: subtotalAmount,
         discountAmount: discountAmount,
-        deliveryFee: 0,
+        deliveryFee: deliveryFee,
         totalAmount: totalAmount,
         promoCode: appliedPromo ? appliedPromo.code : null,
-        discountPercent: appliedPromo ? appliedPromo.percent : 0,
+        discountPercent: discountPercent,
         payMethod: (document.querySelector('input[name="payMethod"]:checked')?.closest('.pay-option')?.querySelector('strong')?.textContent) || '',
         mapsLink: mapsLink || null,
         status: 'Pending',
