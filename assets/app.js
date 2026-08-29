@@ -484,6 +484,181 @@ document.addEventListener(
     // ORDER FORM
     // --------------------------------------------------
 
+    // --------------------------------------------------
+// DELIVERY SCHEDULING
+// --------------------------------------------------
+
+const deliveryDateField =
+  document.getElementById(
+    'deliveryDate'
+  );
+
+
+const deliveryTimeField =
+  document.getElementById(
+    'deliveryTime'
+  );
+
+
+const deliveryInstructionsField =
+  document.getElementById(
+    'deliveryInstructions'
+  );
+
+
+function getPakistanDateInfo() {
+
+  const formatter =
+    new Intl.DateTimeFormat(
+      'en-GB',
+      {
+        timeZone: 'Asia/Karachi',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        hourCycle: 'h23'
+      }
+    );
+
+
+  const parts =
+    formatter.formatToParts(
+      new Date()
+    );
+
+
+  const values = {};
+
+
+  parts.forEach(
+    part => {
+
+      if (
+        part.type !== 'literal'
+      ) {
+
+        values[part.type] =
+          part.value;
+
+      }
+
+    }
+  );
+
+
+  return {
+
+    year:
+      Number(values.year),
+
+    month:
+      Number(values.month),
+
+    day:
+      Number(values.day),
+
+    hour:
+      Number(values.hour)
+
+  };
+
+}
+
+
+function formatDateForInput(
+  year,
+  month,
+  day
+) {
+
+  return (
+    String(year)
+      .padStart(4, '0') +
+    '-' +
+    String(month)
+      .padStart(2, '0') +
+    '-' +
+    String(day)
+      .padStart(2, '0')
+  );
+
+}
+
+
+function getEarliestDeliveryDate() {
+
+  const pakistan =
+    getPakistanDateInfo();
+
+
+  /*
+    Create the calendar date in UTC only
+    for safe date arithmetic.
+  */
+
+  const date =
+    new Date(
+      Date.UTC(
+        pakistan.year,
+        pakistan.month - 1,
+        pakistan.day
+      )
+    );
+
+
+  /*
+    Same-day delivery cutoff:
+    after 3 PM Pakistan time,
+    start from tomorrow.
+  */
+
+  if (
+    pakistan.hour >= 15
+  ) {
+
+    date.setUTCDate(
+      date.getUTCDate() + 1
+    );
+
+  }
+
+
+  return formatDateForInput(
+
+    date.getUTCFullYear(),
+
+    date.getUTCMonth() + 1,
+
+    date.getUTCDate()
+
+  );
+
+}
+
+
+if (
+  deliveryDateField
+) {
+
+  const earliestDate =
+    getEarliestDeliveryDate();
+
+
+  deliveryDateField.min =
+    earliestDate;
+
+
+  if (
+    !deliveryDateField.value
+  ) {
+
+    deliveryDateField.value =
+      earliestDate;
+
+  }
+
+}
     const productGrid =
       document.getElementById(
         'productGrid'
