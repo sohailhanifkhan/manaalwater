@@ -17,6 +17,42 @@
   gtag('js', new Date());
   gtag('config', 'G-J1BEN9EM98');
 </script>
+  <style>
+  .saved-address-card{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:16px;
+    margin-bottom:10px;
+    box-shadow:var(--shadow-sm);
+  }
+
+  .saved-address-top{
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    align-items:flex-start;
+  }
+
+  .saved-address-label{
+    font-weight:800;
+    color:var(--deep);
+  }
+
+  .saved-address-text{
+    margin-top:6px;
+    font-size:.82rem;
+    color:var(--ink-soft);
+    line-height:1.5;
+  }
+
+  .saved-address-actions{
+    display:flex;
+    gap:8px;
+    margin-top:12px;
+    flex-wrap:wrap;
+  }
+</style>
 </head>
   <style>
   .history-card{
@@ -247,6 +283,73 @@
       <div class="card"><div class="icon-tile">🧾</div><h4>Order history</h4><p>See past deliveries and receipts whenever you need them.</p></div>
     </div>
   </div>
+  <div id="savedAddressesSection" style="display:none; margin-top:30px;">
+
+  <div style="display:flex; justify-content:space-between; align-items:end; gap:15px; margin-bottom:16px;">
+
+    <div>
+      <span class="eyebrow">Addresses</span>
+      <h2 style="margin:8px 0 0;">Saved delivery addresses</h2>
+    </div>
+
+    <button id="addAddressBtn" type="button" class="btn btn-outline btn-sm">
+      + Add address
+    </button>
+
+  </div>
+
+
+  <div id="savedAddressesList"></div>
+
+
+  <div id="addAddressPanel" class="summary-box" style="display:none; margin-top:14px;">
+
+    <h3 style="margin-top:0;">Add delivery address</h3>
+
+    <form id="addAddressForm">
+
+      <label class="form-label" for="addressLabel">Label</label>
+      <input
+        id="addressLabel"
+        class="form-input"
+        type="text"
+        placeholder="Home, Office, Parents..."
+        required
+      >
+
+      <label class="form-label" for="addressText">Address</label>
+      <input
+        id="addressText"
+        class="form-input"
+        type="text"
+        required
+      >
+
+      <label class="form-label" for="addressArea">Area</label>
+      <input
+        id="addressArea"
+        class="form-input"
+        type="text"
+        placeholder="Bankhurma, Mirpur..."
+      >
+
+      <div style="display:flex; gap:10px; margin-top:16px;">
+
+        <button type="submit" class="btn btn-primary">
+          Save address
+        </button>
+
+        <button type="button" id="cancelAddAddress" class="btn btn-outline">
+          Cancel
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
   <div id="orderHistorySection" style="display:none; margin-top:30px;">
 
   <div style="display:flex; justify-content:space-between; align-items:end; gap:15px; margin-bottom:16px;">
