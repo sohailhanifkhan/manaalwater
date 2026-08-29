@@ -515,20 +515,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
             localStorage.setItem(
               'manaalReorder',
-              JSON.stringify({
+              JSON.stringify(
+               {
+  items:
+    Array.isArray(order.items)
+      ? order.items
+      : [],
 
-                items:
-                  Array.isArray(order.items)
-                    ? order.items
-                    : [],
+  area:
+    order.area || '',
 
-                area:
-                  order.area || '',
+  payMethod:
+    order.payMethod || '',
 
-                payMethod:
-                  order.payMethod || ''
+  deliveryTime:
+    order.deliveryTime || '',
 
-              })
+  deliveryInstructions:
+    order.deliveryInstructions || ''
+})
             );
 
 
