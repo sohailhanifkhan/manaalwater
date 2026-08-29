@@ -18,6 +18,84 @@
   gtag('config', 'G-J1BEN9EM98');
 </script>
 </head>
+  <style>
+  .history-card{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:18px;
+    margin-bottom:12px;
+    box-shadow:var(--shadow-sm);
+  }
+
+  .history-top{
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+    align-items:flex-start;
+    margin-bottom:12px;
+  }
+
+  .history-order-no{
+    font-weight:800;
+    color:var(--deep);
+  }
+
+  .history-date{
+    font-size:.75rem;
+    color:var(--ink-soft);
+    margin-top:3px;
+  }
+
+  .history-status{
+    display:inline-flex;
+    padding:5px 10px;
+    border-radius:999px;
+    font-size:.67rem;
+    font-weight:800;
+    text-transform:uppercase;
+    white-space:nowrap;
+    background:#eef3f6;
+  }
+
+  .history-status.Pending{background:#fff2d9;color:#956c00;}
+  .history-status.Confirmed{background:#e8f1ff;color:#2563eb;}
+  .history-status.Preparing{background:#f0eaff;color:#7c3aed;}
+  .history-status.Out-for-Delivery{background:#e5f6fd;color:#0284c7;}
+  .history-status.Delivered{background:#ddf8f2;color:#078876;}
+
+  .history-items{
+    font-size:.82rem;
+    line-height:1.65;
+    margin:10px 0;
+  }
+
+  .history-bottom{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    border-top:1px solid var(--line);
+    padding-top:12px;
+    margin-top:12px;
+  }
+
+  .history-total{
+    font-weight:800;
+    font-size:1rem;
+  }
+
+  @media(max-width:560px){
+    #accountStats > div{
+      grid-template-columns:1fr !important;
+    }
+
+    .history-bottom{
+      align-items:stretch;
+      flex-direction:column;
+    }
+  }
+</style>
 <body>
 
 <nav class="nav">
@@ -100,6 +178,26 @@
       </div>
       <a href="order.html" class="btn btn-primary btn-block">Reorder now</a>
       <button id="logoutBtn" class="btn btn-outline btn-block" style="margin-top:12px;">Log out</button>
+      <div id="accountStats" style="display:none; margin-top:28px;">
+  <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:10px;">
+    
+    <div class="summary-box" style="text-align:center; padding:14px 8px;">
+      <strong id="accTotalOrders" style="font-size:1.35rem; display:block;">0</strong>
+      <span style="font-size:.72rem; color:var(--ink-soft);">ORDERS</span>
+    </div>
+
+    <div class="summary-box" style="text-align:center; padding:14px 8px;">
+      <strong id="accDelivered" style="font-size:1.35rem; display:block;">0</strong>
+      <span style="font-size:.72rem; color:var(--ink-soft);">DELIVERED</span>
+    </div>
+
+    <div class="summary-box" style="text-align:center; padding:14px 8px;">
+      <strong id="accSpent" style="font-size:1.35rem; display:block;">Rs. 0</strong>
+      <span style="font-size:.72rem; color:var(--ink-soft);">TOTAL SPENT</span>
+    </div>
+
+  </div>
+</div>
     </div>
 
     <div class="grid-3 mt-lg" style="grid-template-columns:repeat(3,1fr);">
@@ -108,6 +206,23 @@
       <div class="card"><div class="icon-tile">🧾</div><h4>Order history</h4><p>See past deliveries and receipts whenever you need them.</p></div>
     </div>
   </div>
+  <div id="orderHistorySection" style="display:none; margin-top:30px;">
+
+  <div style="display:flex; justify-content:space-between; align-items:end; gap:15px; margin-bottom:16px;">
+    <div>
+      <span class="eyebrow">Orders</span>
+      <h2 style="margin:8px 0 0;">Your order history</h2>
+    </div>
+    <span id="historyCount" style="font-size:.82rem; color:var(--ink-soft);"></span>
+  </div>
+
+  <div id="orderHistoryList">
+    <div class="summary-box">
+      Loading your orders...
+    </div>
+  </div>
+
+</div>
 </section>
 
 <footer>
