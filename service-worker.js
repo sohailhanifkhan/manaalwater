@@ -1,39 +1,185 @@
-// Manaal Water — minimal service worker
-// Just enough to make the site installable (PWA requirement) and cache
-// the core visual shell for faster repeat visits. Live data (prices,
-// orders) always goes to the network, never the cache.
+// Manaal Water Service Worker
 
-const CACHE_NAME = 'manaal-water-shell-v1';
-const SHELL_FILES = [
-  'index.html',
-  'assets/style.css',
-  'assets/logo.png',
-  'assets/icon-192.png'
+const CACHE_NAME = 'manaal-water-v2';
+
+const STATIC_ASSETS = [
+  '/',
+  '/index.html',
+  '/order.html',
+  '/account.html',
+  '/contact.html',
+  '/assets/style.css',
+  '/assets/app.js'
 ];
 
-self.addEventListener('install', (event) => {
+
+// --------------------------------------------------
+// INSTALL
+// --------------------------------------------------
+
+self.addEventListener('install', event => {
+
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(SHELL_FILES)).catch(() => {})
+
+    caches
+      .open(CACHE_NAME)
+      .then(cache => {
+
+        return cache.addAll(
+          STATIC_ASSETS
+        );
+
+      })
+
   );
+
   self.skipWaiting();
+
 });
 
-self.addEventListener('activate', (event) => {
+
+// --------------------------------------------------
+// ACTIVATE
+// Remove previous Manaal Water cache versions
+// --------------------------------------------------
+
+self.addEventListener('activate', event => {
+
   event.waitUntil(
-    caches.keys().then((names) =>
-      Promise.all(names.filter(n => n !== CACHE_NAME).map(n => caches.delete(n)))
-    )
+
+    caches
+      .keys()
+      .then(cacheNames => {
+
+        return Promise.all(
+
+          cacheNames.map(name => {
+
+            if (
+              name !== CACHE_NAME &&
+              name.startsWith('manaal-water')
+            ) {
+
+              return caches.delete(name);
+
+            }
+
+          })
+
+        );
+
+      })
+
   );
+
   self.clients.claim();
+
 });
 
-self.addEventListener('fetch', (event) => {
-  // Only handle simple same-origin GET requests for the shell files.
-  // Everything else (Sheets CSV, Firebase, WhatsApp, etc.) always goes to the network.
-  const url = new URL(event.request.url);
-  if (event.request.method !== 'GET' || url.origin !== self.location.origin) return;
+
+// --------------------------------------------------
+// FETCH
+// Network first for pages/scripts,
+// cache fallback if customer is offline.
+// --------------------------------------------------
+
+self.addEventListener('fetch', event => {
+
+  const request = event.request;
+
+
+  if (
+    request.method !== 'GET'
+  ) {
+
+    return;
+
+  }
+
+
+  const url =
+    new URL(request.url);
+
+
+  // Do not interfere with external services
+  // such as Firebase or Google Sheets.
+
+  if (
+    url.origin !== self.location.origin
+  ) {
+
+    return;
+
+  }
+
 
   event.respondWith(
-    caches.match(event.request).then((cached) => cached || fetch(event.request))
+
+    fetch(request)
+
+      .then(response => {
+
+        if (
+          !response ||
+          response.status !== 200 ||
+          response.type !== 'basic'
+        ) {
+
+          return response;
+
+        }
+
+
+        const copy =
+          response.clone();
+
+
+        caches
+          .open(CACHE_NAME)
+          .then(cache => {
+
+            cache.put(
+              request,
+              copy
+            );
+
+          });
+
+
+        return response;
+
+      })
+
+      .catch(() => {
+
+        return caches
+          .match(request)
+          .then(cached => {
+
+            if (cached) {
+
+              return cached;
+
+            }
+
+
+            if (
+              request.mode === 'navigate'
+            ) {
+
+              return caches.match(
+                '/index.html'
+              );
+
+            }
+
+
+            return Response.error();
+
+          });
+
+      })
+
   );
+
 });
