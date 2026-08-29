@@ -3,9 +3,34 @@
 // Register the service worker so the site can be installed as an app
 // ("Add to Home Screen"). Safe no-op if the browser doesn't support it.
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('service-worker.js').catch(() => {});
-  });
+
+  window.addEventListener(
+    'load',
+    async () => {
+
+      try {
+
+        const registration =
+          await navigator.serviceWorker.register(
+            'service-worker.js'
+          );
+
+        // Check for a newer service worker
+        // whenever the website is opened.
+        registration.update();
+
+      } catch (e) {
+
+        console.warn(
+          'Service worker registration failed',
+          e
+        );
+
+      }
+
+    }
+  );
+
 }
 
 
