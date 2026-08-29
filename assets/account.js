@@ -19,7 +19,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const accSpent = document.getElementById('accSpent');
 
   let customerOrders = [];
-
+    let currentUser = null;
+  let currentProfile = null;
 
   function showError(message) {
 
@@ -537,6 +538,464 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 
+    // --------------------------------------------------
+  // EDIT PROFILE
+  // --------------------------------------------------
+
+  const editProfileBtn =
+    document.getElementById('editProfileBtn');
+
+  const editProfilePanel =
+    document.getElementById('editProfilePanel');
+
+  const editProfileForm =
+    document.getElementById('editProfileForm');
+
+  const cancelEditProfile =
+    document.getElementById('cancelEditProfile');
+
+  const editProfileMsg =
+    document.getElementById('editProfileMsg');
+
+
+  if (editProfileBtn) {
+
+    editProfileBtn.addEventListener(
+      'click',
+      () => {
+
+        if (!currentProfile) return;
+
+        document.getElementById('editName').value =
+          currentProfile.name || '';
+
+        document.getElementById('editPhone').value =
+          currentProfile.phone || '';
+
+        document.getElementById('editAddress').value =
+          currentProfile.address || '';
+
+        document.getElementById('editPay').value =
+          currentProfile.payMethod || 'Cash on Delivery';
+
+        editProfilePanel.style.display = 'block';
+
+      }
+    );
+
+  }
+
+
+  if (cancelEditProfile) {
+
+    cancelEditProfile.addEventListener(
+      'click',
+      () => {
+
+        editProfilePanel.style.display = 'none';
+
+      }
+    );
+
+  }
+
+
+  if (editProfileForm) {
+
+    editProfileForm.addEventListener(
+      'submit',
+      async (e) => {
+
+        e.preventDefault();
+
+        if (!currentUser) return;
+
+        const updatedProfile = {
+
+          name:
+            document.getElementById('editName').value.trim(),
+
+          phone:
+            document.getElementById('editPhone').value.trim(),
+
+          address:
+            document.getElementById('editAddress').value.trim(),
+
+          payMethod:
+            document.getElementById('editPay').value,
+
+          updatedAt:
+            firebase.firestore.FieldValue.serverTimestamp()
+
+        };
+
+
+        try {
+
+          await db.collection('customers')
+            .doc(currentUser.uid)
+            .update(updatedProfile);
+
+
+          currentProfile = {
+            ...currentProfile,
+            ...updatedProfile
+          };
+
+
+          document.getElementById('profName').textContent =
+            updatedProfile.name || '—';
+
+          document.getElementById('profPhone').textContent =
+            updatedProfile.phone || '—';
+
+          document.getElementById('profAddress').textContent =
+            updatedProfile.address || '—';
+
+          document.getElementById('profPay').textContent =
+            updatedProfile.payMethod || '—';
+
+
+          if (editProfileMsg) {
+
+            editProfileMsg.textContent =
+              'Profile updated successfully.';
+
+            editProfileMsg.style.display =
+              'block';
+
+          }
+
+
+          setTimeout(
+            () => {
+
+              editProfilePanel.style.display =
+                'none';
+
+              if (editProfileMsg) {
+                editProfileMsg.style.display =
+                  'none';
+              }
+
+            },
+            1200
+          );
+
+
+        } catch (err) {
+
+          console.error(
+            'Could not update profile',
+            err
+          );
+
+          if (editProfileMsg) {
+
+            editProfileMsg.textContent =
+              'Could not update your profile. Please try again.';
+
+            editProfileMsg.style.display =
+              'block';
+
+          }
+
+        }
+
+      }
+    );
+
+  }
+    // --------------------------------------------------
+  // SAVED ADDRESSES
+  // --------------------------------------------------
+
+  const savedAddressesSection =
+    document.getElementById('savedAddressesSection');
+
+  const savedAddressesList =
+    document.getElementById('savedAddressesList');
+
+  const addAddressBtn =
+    document.getElementById('addAddressBtn');
+
+  const addAddressPanel =
+    document.getElementById('addAddressPanel');
+
+  const addAddressForm =
+    document.getElementById('addAddressForm');
+
+  const cancelAddAddress =
+    document.getElementById('cancelAddAddress');
+
+
+  async function loadSavedAddresses() {
+
+    if (
+      !currentUser ||
+      !savedAddressesList
+    ) return;
+
+
+    savedAddressesSection.style.display =
+      'block';
+
+
+    try {
+
+      const snapshot =
+        await db.collection('customers')
+          .doc(currentUser.uid)
+          .collection('addresses')
+          .orderBy('createdAt', 'asc')
+          .get();
+
+
+      const addresses =
+        snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+
+
+      if (!addresses.length) {
+
+        savedAddressesList.innerHTML = `
+          <div class="summary-box">
+            No additional saved addresses yet.
+          </div>
+        `;
+
+        return;
+
+      }
+
+
+      savedAddressesList.innerHTML =
+        addresses.map(address => `
+
+          <div class="saved-address-card">
+
+            <div class="saved-address-top">
+
+              <div>
+
+                <div class="saved-address-label">
+                  ${address.label || 'Saved address'}
+                </div>
+
+                <div class="saved-address-text">
+                  ${address.address || ''}
+                  ${address.area ? '<br>' + address.area : ''}
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <div class="saved-address-actions">
+
+              <button
+                type="button"
+                class="btn btn-outline btn-sm use-address-btn"
+                data-id="${address.id}">
+                Use for next order
+              </button>
+
+              <button
+                type="button"
+                class="btn btn-outline btn-sm delete-address-btn"
+                data-id="${address.id}">
+                Delete
+              </button>
+
+            </div>
+
+          </div>
+
+        `).join('');
+
+
+      savedAddressesList
+        .querySelectorAll('.use-address-btn')
+        .forEach(btn => {
+
+          btn.addEventListener(
+            'click',
+            () => {
+
+              const address =
+                addresses.find(
+                  item => item.id === btn.dataset.id
+                );
+
+              if (!address) return;
+
+
+              localStorage.setItem(
+                'manaalSelectedAddress',
+                JSON.stringify({
+
+                  address:
+                    address.address || '',
+
+                  area:
+                    address.area || ''
+
+                })
+              );
+
+
+              window.location.href =
+                'order.html';
+
+            }
+          );
+
+        });
+
+
+      savedAddressesList
+        .querySelectorAll('.delete-address-btn')
+        .forEach(btn => {
+
+          btn.addEventListener(
+            'click',
+            async () => {
+
+              try {
+
+                await db.collection('customers')
+                  .doc(currentUser.uid)
+                  .collection('addresses')
+                  .doc(btn.dataset.id)
+                  .delete();
+
+
+                loadSavedAddresses();
+
+              } catch (err) {
+
+                console.error(
+                  'Could not delete address',
+                  err
+                );
+
+              }
+
+            }
+          );
+
+        });
+
+
+    } catch (err) {
+
+      console.error(
+        'Could not load saved addresses',
+        err
+      );
+
+      savedAddressesList.innerHTML =
+        '<div class="summary-box">Could not load saved addresses.</div>';
+
+    }
+
+  }
+
+
+  if (addAddressBtn) {
+
+    addAddressBtn.addEventListener(
+      'click',
+      () => {
+
+        addAddressPanel.style.display =
+          'block';
+
+      }
+    );
+
+  }
+
+
+  if (cancelAddAddress) {
+
+    cancelAddAddress.addEventListener(
+      'click',
+      () => {
+
+        addAddressPanel.style.display =
+          'none';
+
+      }
+    );
+
+  }
+
+
+  if (addAddressForm) {
+
+    addAddressForm.addEventListener(
+      'submit',
+      async (e) => {
+
+        e.preventDefault();
+
+        if (!currentUser) return;
+
+
+        const newAddress = {
+
+          label:
+            document.getElementById('addressLabel')
+              .value.trim(),
+
+          address:
+            document.getElementById('addressText')
+              .value.trim(),
+
+          area:
+            document.getElementById('addressArea')
+              .value.trim(),
+
+          createdAt:
+            firebase.firestore.FieldValue.serverTimestamp()
+
+        };
+
+
+        try {
+
+          await db.collection('customers')
+            .doc(currentUser.uid)
+            .collection('addresses')
+            .add(newAddress);
+
+
+          addAddressForm.reset();
+
+          addAddressPanel.style.display =
+            'none';
+
+
+          loadSavedAddresses();
+
+
+        } catch (err) {
+
+          console.error(
+            'Could not save address',
+            err
+          );
+
+        }
+
+      }
+    );
+
+  }
   // --------------------------------------------------
   // AUTH STATE
   // --------------------------------------------------
@@ -550,7 +1009,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ) return;
 
 
-      if (user) {
+      if (user) {        currentUser = user;
 
         loggedOutView.style.display = 'none';
         loggedInView.style.display = 'block';
@@ -578,7 +1037,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const d =
               doc.data();
-
+              currentProfile = d;
 
             document.getElementById('welcomeName')
               .textContent =
@@ -617,9 +1076,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
         await loadOrderHistory(user);
+        await loadSavedAddresses();
 
-
-      } else {
+      } else {        currentUser = null;
+        currentProfile = null;
 
         loggedOutView.style.display = 'block';
         loggedInView.style.display = 'none';
