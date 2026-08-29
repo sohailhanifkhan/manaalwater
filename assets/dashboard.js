@@ -106,13 +106,18 @@ document.addEventListener('DOMContentLoaded', () => {
               ${status === 'Delivered' ? `<button class="btn btn-outline btn-sm set-status" data-id="${id}" data-status="Pending">Reset to Pending</button>` : ''}
             </div>
             </div>`;
-        }).join('');
+               }).join('');
 
         ordersList.querySelectorAll('.set-status').forEach(btn => {
-  btn.addEventListener('click', () => {
-    updateStatus(btn.dataset.id, btn.dataset.status);
-  });
-});
+          btn.addEventListener('click', () => {
+            updateStatus(btn.dataset.id, btn.dataset.status);
+          });
+        });
+
+      }, (error) => {
+        console.error('Order listener failed:', error);
+        ordersList.innerHTML = '<div class="empty-state">Could not load orders. Please check your connection and Firebase permissions.</div>';
+      });
   }
 
   function updateStatus(id, status) {
