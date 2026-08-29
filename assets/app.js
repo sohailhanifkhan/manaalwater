@@ -258,14 +258,130 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (productGrid) {
     fetchLiveProducts().then(products => {
-      liveProducts = products;
-      cartQty = new Array(products.length).fill(0);
-      // Default one unit of the "Refilling" product already in the cart — that's the everyday reorder item
-      const refillIndex = products.findIndex(p => /refill/i.test(p.name));
-      cartQty[refillIndex >= 0 ? refillIndex : 0] = 1;
-      renderProductGrid();
-      updateSummary();
-    });
+
+  liveProducts = products;
+
+  cartQty =
+    new Array(products.length).fill(0);
+
+
+  let restoredReorder = false;
+
+
+  try {
+
+    const reorderRaw =
+      localStorage.getItem('manaalReorder');
+
+
+    if (reorderRaw) {
+
+      const reorderData =
+        JSON.parse(reorderRaw);
+
+
+      if (
+        reorderData &&
+        Array.isArray(reorderData.items)
+      ) {
+
+        reorderData.items.forEach(
+          savedItem => {
+
+            const savedName =
+              String(savedItem.name || '')
+                .toLowerCase();
+
+
+            const productIndex =
+              products.findIndex(
+                product =>
+
+                  savedName.startsWith(
+                    String(product.name || '')
+                      .toLowerCase()
+                  )
+
+              );
+
+
+            if (productIndex >= 0) {
+
+              cartQty[productIndex] =
+                Math.max(
+                  0,
+                  Number(savedItem.qty) || 0
+                );
+
+              restoredReorder = true;
+
+            }
+
+          }
+        );
+
+      }
+
+
+      const areaField =
+        document.getElementById('area');
+
+
+      if (
+        areaField &&
+        reorderData.area
+      ) {
+
+        areaField.value =
+          reorderData.area;
+
+      }
+
+
+      localStorage.removeItem(
+        'manaalReorder'
+      );
+
+    }
+
+  } catch (e) {
+
+    console.warn(
+      'Could not restore previous order',
+      e
+    );
+
+  }
+
+
+  // Normal new checkout:
+  // start with one refill bottle.
+  //
+  // Reorder checkout:
+  // use quantities from the previous order.
+
+  if (!restoredReorder) {
+
+    const refillIndex =
+      products.findIndex(
+        p => /refill/i.test(p.name)
+      );
+
+
+    cartQty[
+      refillIndex >= 0
+        ? refillIndex
+        : 0
+    ] = 1;
+
+  }
+
+
+  renderProductGrid();
+
+  updateSummary();
+
+});
   }
 
   // Homepage — live product cards (independent of the order page)
