@@ -1890,6 +1890,22 @@ msg +=
                   'area'
                 )
                 ?.value || '',
+            deliveryDate:
+  document.getElementById(
+    'deliveryDate'
+  )?.value || '',
+
+
+deliveryTime:
+  document.getElementById(
+    'deliveryTime'
+  )?.value || '',
+
+
+deliveryInstructions:
+  document.getElementById(
+    'deliveryInstructions'
+  )?.value.trim() || '',
 
 
             items:
