@@ -65,6 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
           const o = docSnap.data();
           const id = docSnap.id;
           const status = o.status || 'Pending';
+          const statusClass = status.replace(/\s+/g, '-');
           const time = o.createdAt && o.createdAt.toDate ? o.createdAt.toDate().toLocaleString() : 'Just now';
           const mapsHtml = o.mapsLink
             ? `<a class="maps-link" href="${o.mapsLink}" target="_blank" rel="noopener">📍 View location</a>`
@@ -88,8 +89,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div>
                   <h4>${title}</h4>
                   <div class="order-time">${time}</div>
+                  <div class="order-detail"><strong>Order No:</strong> ${o.orderNumber || id}</div>
                 </div>
-                <span class="status-pill status-${status}">${status}</span>
+                <span class="status-pill status-${statusClass}">${status}</span>
               </div>
               <div class="order-detail"><strong>Phone:</strong> ${o.phone || '-'}</div>
               <div class="order-detail"><strong>Address:</strong> ${o.address || '-'} ${o.area ? '(' + o.area + ')' : ''}</div>
@@ -97,21 +99,20 @@ document.addEventListener('DOMContentLoaded', () => {
               <div class="order-detail"><strong>Total:</strong> ${o.total || '-'} &nbsp; <strong>Payment:</strong> ${o.payMethod || '-'}</div>
               <div class="order-detail">${mapsHtml}</div>
               <div class="order-actions">
-                ${status !== 'Delivered' ? `<button class="btn btn-primary btn-sm mark-delivered" data-id="${id}">Mark Delivered</button>` : ''}
-                ${status === 'Delivered' ? `<button class="btn btn-outline btn-sm mark-pending" data-id="${id}">Mark Pending</button>` : ''}
-              </div>
+              ${status === 'Pending' ? `<button class="btn btn-primary btn-sm set-status" data-id="${id}" data-status="Confirmed">Confirm Order</button>` : ''}
+              ${status === 'Confirmed' ? `<button class="btn btn-primary btn-sm set-status" data-id="${id}" data-status="Preparing">Start Preparing</button>` : ''}
+              ${status === 'Preparing' ? `<button class="btn btn-primary btn-sm set-status" data-id="${id}" data-status="Out for Delivery">Out for Delivery</button>` : ''}
+              ${status === 'Out for Delivery' ? `<button class="btn btn-primary btn-sm set-status" data-id="${id}" data-status="Delivered">Mark Delivered</button>` : ''}
+              ${status === 'Delivered' ? `<button class="btn btn-outline btn-sm set-status" data-id="${id}" data-status="Pending">Reset to Pending</button>` : ''}
+            </div>
             </div>`;
         }).join('');
 
-        ordersList.querySelectorAll('.mark-delivered').forEach(btn => {
-          btn.addEventListener('click', () => updateStatus(btn.dataset.id, 'Delivered'));
-        });
-        ordersList.querySelectorAll('.mark-pending').forEach(btn => {
-          btn.addEventListener('click', () => updateStatus(btn.dataset.id, 'Pending'));
-        });
-      }, (err) => {
-        ordersList.innerHTML = `<div class="empty-state">Could not load orders: ${err.message}</div>`;
-      });
+        ordersList.querySelectorAll('.set-status').forEach(btn => {
+  btn.addEventListener('click', () => {
+    updateStatus(btn.dataset.id, btn.dataset.status);
+  });
+});
   }
 
   function updateStatus(id, status) {
