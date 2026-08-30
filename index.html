@@ -427,13 +427,27 @@
      WATER CURTAIN TRANSITION
 =================================================== -->
 
+<!-- ==================================================
+     ANIMATED WATER TRANSITION
+=================================================== -->
+
 <div class="water-curtain" aria-hidden="true">
 
-  <img
-    src="assets/manaal-river-wave.webp"
-    alt=""
-    class="header-water-wave"
+  <video
+    class="header-water-video"
+    autoplay
+    muted
+    loop
+    playsinline
+    preload="metadata"
   >
+    <source
+      src="assets/header-ocean-water.mp4"
+      type="video/mp4"
+    >
+  </video>
+
+  <div class="header-water-blend"></div>
 
 </div>
 
