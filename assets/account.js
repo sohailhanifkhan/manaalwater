@@ -494,57 +494,72 @@ document.addEventListener('DOMContentLoaded', () => {
       ).join('');
 
 
-    historyList
-      .querySelectorAll('.reorder-history-btn')
-      .forEach(button => {
+historyList
+  .querySelectorAll('.reorder-btn')
+  .forEach(button => {
 
-        button.addEventListener(
-          'click',
-          () => {
+    button.addEventListener(
+      'click',
+      () => {
 
-            const index =
-              Number(
-                button.dataset.orderIndex
-              );
-
-            const order =
-              customerOrders[index];
-
-            if (!order) return;
+        const order =
+          customerOrders.find(
+            item =>
+              item.id ===
+              button.dataset.id
+          );
 
 
-            localStorage.setItem(
-              'manaalReorder',
-              JSON.stringify(
-               {
-  items:
-    Array.isArray(order.items)
-      ? order.items
-      : [],
+        if (!order) {
 
-  area:
-    order.area || '',
+          console.warn(
+            'Could not find order for reorder:',
+            button.dataset.id
+          );
 
-  payMethod:
-    order.payMethod || '',
+          return;
 
-  deliveryTime:
-    order.deliveryTime || '',
-
-  deliveryInstructions:
-    order.deliveryInstructions || ''
-})
-            );
+        }
 
 
-            window.location.href =
-              'order.html?reorder=1';
+        localStorage.setItem(
+          'manaalReorder',
+          JSON.stringify(
+            {
 
-          }
+              items:
+                Array.isArray(order.items)
+                  ? order.items
+                  : [],
 
+
+              area:
+                order.area || '',
+
+
+              payMethod:
+                order.payMethod || '',
+
+
+              deliveryTime:
+                order.deliveryTime || '',
+
+
+              deliveryInstructions:
+                order.deliveryInstructions || ''
+
+            }
+          )
         );
 
-      });
+
+        window.location.href =
+          'order.html?reorder=1';
+
+      }
+    );
+
+  });
 
   }
 
