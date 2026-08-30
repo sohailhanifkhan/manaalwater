@@ -183,7 +183,118 @@ document.addEventListener('DOMContentLoaded', () => {
     );
 
   }
+    // --------------------------------------------------
+  // FORGOT PASSWORD
+  // --------------------------------------------------
 
+  const forgotPasswordBtn =
+    document.getElementById('forgotPasswordBtn');
+
+
+  if (forgotPasswordBtn) {
+
+    forgotPasswordBtn.addEventListener(
+      'click',
+      async () => {
+
+        clearError();
+
+
+        const emailInput =
+          document.getElementById('loginEmail');
+
+
+        const email =
+          emailInput
+            ? emailInput.value.trim()
+            : '';
+
+
+        if (!email) {
+
+          showError(
+            'Please enter your email address first, then click Forgot password?'
+          );
+
+          if (emailInput) {
+            emailInput.focus();
+          }
+
+          return;
+
+        }
+
+
+        try {
+
+          forgotPasswordBtn.disabled = true;
+
+          forgotPasswordBtn.textContent =
+            'Sending reset email...';
+
+
+          await auth.sendPasswordResetEmail(
+            email
+          );
+
+
+          if (authError) {
+
+            authError.textContent =
+              'Password reset email sent. Please check your inbox and spam folder.';
+
+            authError.style.display =
+              'flex';
+
+            authError.style.borderColor =
+              'rgba(0,194,168,.55)';
+
+            authError.style.color =
+              '#087f70';
+
+          }
+
+
+        } catch (err) {
+
+          console.error(
+            'Password reset failed:',
+            err
+          );
+
+
+          if (
+            err &&
+            err.code &&
+            err.code.includes('invalid-email')
+          ) {
+
+            showError(
+              'Please enter a valid email address.'
+            );
+
+          } else {
+
+            showError(
+              'Could not send the password reset email. Please check the email address and try again.'
+            );
+
+          }
+
+
+        } finally {
+
+          forgotPasswordBtn.disabled = false;
+
+          forgotPasswordBtn.textContent =
+            'Forgot password?';
+
+        }
+
+      }
+    );
+
+  }
 
   // --------------------------------------------------
   // LOGOUT
