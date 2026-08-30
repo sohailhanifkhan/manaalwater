@@ -294,7 +294,7 @@ footer{
 
   background:#fff;
 
-  padding:10px 16px;
+  padding:8px 14px;
 
   border-radius:14px;
 
@@ -322,7 +322,7 @@ footer{
 .footer-logo{
   display:block;
 
-  height:54px;
+  height:64px;
 
   width:auto;
 
@@ -341,7 +341,7 @@ footer{
 
   line-height:1.7;
 
-  color:rgba(255,255,255,.72);
+  color:rgba(255,255,255,.82);
 }
 
 
@@ -462,11 +462,17 @@ footer{
 
 
 .footer-tagline{
-  color:rgba(255,255,255,.72);
-
-  font-weight:600;
-
+  color:#fff;
+  font-weight:700;
   padding-right:60px;
+}
+
+.footer-tagline::before{
+  content:"●";
+  color:var(--aqua);
+  font-size:.65rem;
+  margin-right:8px;
+  vertical-align:middle;
 }
 
 
