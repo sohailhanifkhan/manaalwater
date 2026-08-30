@@ -5934,3 +5934,259 @@ body.home-bg::before{
   }
 
 }
+/* =========================================================
+   WATER CURTAIN UNDER HEADER
+   ========================================================= */
+
+.water-curtain{
+
+  position:relative;
+
+  width:100%;
+
+  height:24px;
+
+  margin-bottom:-24px;
+
+  z-index:20;
+
+  overflow:hidden;
+
+  pointer-events:none;
+
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(255,255,255,.72),
+      rgba(234,246,251,.25),
+      transparent
+    );
+
+}
+
+
+/* soft horizontal water edge */
+
+.water-curtain::before{
+
+  content:"";
+
+  position:absolute;
+
+  left:0;
+
+  right:0;
+
+  top:0;
+
+  height:3px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(30,127,214,.35) 18%,
+      rgba(0,194,168,.55) 48%,
+      rgba(30,127,214,.35) 82%,
+      transparent 100%
+    );
+
+  filter:blur(.3px);
+
+}
+
+
+/* flowing thin streams */
+
+.water-stream{
+
+  position:absolute;
+
+  top:-6px;
+
+  width:2px;
+
+  height:26px;
+
+  border-radius:999px;
+
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(255,255,255,.9),
+      rgba(103,204,242,.75),
+      rgba(0,194,168,.12)
+    );
+
+  opacity:.55;
+
+  animation:
+    waterFall
+    2.6s ease-in-out infinite;
+
+}
+
+
+.stream-1{
+  left:7%;
+  animation-delay:.15s;
+}
+
+.stream-2{
+  left:18%;
+  height:19px;
+  animation-delay:.55s;
+}
+
+.stream-3{
+  left:31%;
+  height:28px;
+  animation-delay:.9s;
+}
+
+.stream-4{
+  left:44%;
+  height:16px;
+  animation-delay:.3s;
+}
+
+.stream-5{
+  left:58%;
+  height:27px;
+  animation-delay:1.15s;
+}
+
+.stream-6{
+  left:69%;
+  height:20px;
+  animation-delay:.7s;
+}
+
+.stream-7{
+  left:82%;
+  height:28px;
+  animation-delay:1.35s;
+}
+
+.stream-8{
+  left:93%;
+  height:18px;
+  animation-delay:.4s;
+}
+
+
+@keyframes waterFall{
+
+  0%{
+    transform:translateY(-16px) scaleY(.55);
+    opacity:0;
+  }
+
+  25%{
+    opacity:.55;
+  }
+
+  70%{
+    opacity:.35;
+  }
+
+  100%{
+    transform:translateY(25px) scaleY(1.2);
+    opacity:0;
+  }
+
+}
+
+
+/* individual falling droplets */
+
+.water-drop{
+
+  position:absolute;
+
+  top:-9px;
+
+  width:5px;
+
+  height:8px;
+
+  border-radius:
+    50% 50% 55% 55%;
+
+  background:
+    linear-gradient(
+      180deg,
+      #b6efff,
+      rgba(0,194,168,.55)
+    );
+
+  box-shadow:
+    0 0 8px
+    rgba(30,127,214,.25);
+
+  opacity:0;
+
+  animation:
+    waterDrop
+    3.3s linear infinite;
+
+}
+
+
+.drop-1{
+  left:13%;
+  animation-delay:.4s;
+}
+
+.drop-2{
+  left:37%;
+  animation-delay:1.2s;
+}
+
+.drop-3{
+  left:54%;
+  animation-delay:2.1s;
+}
+
+.drop-4{
+  left:74%;
+  animation-delay:.85s;
+}
+
+.drop-5{
+  left:89%;
+  animation-delay:1.65s;
+}
+
+
+@keyframes waterDrop{
+
+  0%{
+    transform:translateY(-8px);
+    opacity:0;
+  }
+
+  15%{
+    opacity:.7;
+  }
+
+  100%{
+    transform:translateY(34px);
+    opacity:0;
+  }
+
+}
+
+
+@media (max-width:640px){
+
+  .water-curtain{
+    height:18px;
+    margin-bottom:-18px;
+  }
+
+  .water-stream{
+    height:20px;
+  }
+
+}
