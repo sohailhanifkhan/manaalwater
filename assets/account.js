@@ -1030,13 +1030,33 @@ historyList
     async (user) => {
 
       if (
-        !loggedOutView ||
-        !loggedInView
-      ) return;
+  !loggedOutView ||
+  !loggedInView
+) return;
 
 
-      if (user) {        currentUser = user;
+// --------------------------------------------------
+// OWNER SMART REDIRECT
+// --------------------------------------------------
 
+if (
+  user &&
+  user.email &&
+  user.email.toLowerCase() ===
+    'manaalwater@gmail.com'
+) {
+
+  window.location.replace(
+    'owner-dashboard.html'
+  );
+
+  return;
+}
+
+
+if (user) {
+
+  currentUser = user;
         loggedOutView.style.display = 'none';
         loggedInView.style.display = 'block';
 
