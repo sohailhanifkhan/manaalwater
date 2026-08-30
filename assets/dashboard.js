@@ -30,73 +30,215 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // --------------------------------------------------
   // OWNER LOGIN
+  // Multiple approved owners + persistent login
   // --------------------------------------------------
 
-  document.getElementById('dashLoginForm').addEventListener('submit', async (e) => {
+  const OWNER_EMAILS = [
+    'manaalwater@gmail.com',
 
-    e.preventDefault();
+    // ADD OWNER 2 EMAIL HERE
+    // 'owner2@gmail.com',
 
-    dashError.style.display = 'none';
+    // ADD OWNER 3 EMAIL HERE
+    // 'owner3@gmail.com'
+  ];
 
-    const email = document.getElementById('dashEmail').value.trim();
-    const pass = document.getElementById('dashPass').value;
 
-    try {
+  function isApprovedOwner(user) {
 
-      await auth.signInWithEmailAndPassword(email, pass);
-
-    } catch (err) {
-
-      showError('Incorrect email or password.');
-
+    if (!user || !user.email) {
+      return false;
     }
+
+    const email =
+      String(user.email)
+        .trim()
+        .toLowerCase();
+
+    return OWNER_EMAILS.some(
+      ownerEmail =>
+        String(ownerEmail)
+          .trim()
+          .toLowerCase() === email
+    );
+
+  }
+
+
+  // Explicitly keep owner signed in on this browser/device.
+  auth.setPersistence(
+    firebase.auth.Auth.Persistence.LOCAL
+  ).catch(error => {
+
+    console.warn(
+      'Could not enable persistent login:',
+      error
+    );
 
   });
 
 
-  document.getElementById('dashLogoutBtn')
-    .addEventListener('click', () => auth.signOut());
+  document
+    .getElementById('dashLoginForm')
+    .addEventListener('submit', async (e) => {
+
+      e.preventDefault();
+
+      dashError.style.display = 'none';
+
+      const email =
+        document
+          .getElementById('dashEmail')
+          .value
+          .trim();
+
+      const pass =
+        document
+          .getElementById('dashPass')
+          .value;
+
+      const loginButton =
+        e.currentTarget.querySelector(
+          'button[type="submit"]'
+        );
+
+      if (loginButton) {
+
+        loginButton.disabled = true;
+        loginButton.textContent = 'Signing in...';
+
+      }
+
+
+      try {
+
+        await auth.setPersistence(
+          firebase.auth.Auth.Persistence.LOCAL
+        );
+
+        const credential =
+          await auth.signInWithEmailAndPassword(
+            email,
+            pass
+          );
+
+
+        if (!isApprovedOwner(credential.user)) {
+
+          await auth.signOut();
+
+          showError(
+            'This account is not authorized to view the dashboard.'
+          );
+
+        }
+
+      } catch (err) {
+
+        console.error(
+          'Owner login failed:',
+          err
+        );
+
+        showError(
+          'Incorrect email or password.'
+        );
+
+      } finally {
+
+        if (loginButton) {
+
+          loginButton.disabled = false;
+          loginButton.textContent = 'Log in';
+
+        }
+
+      }
+
+    });
+
+
+  // --------------------------------------------------
+  // OWNER LOGOUT
+  // --------------------------------------------------
+
+  document
+    .getElementById('dashLogoutBtn')
+    .addEventListener('click', async () => {
+
+      try {
+
+        await auth.signOut();
+
+      } catch (error) {
+
+        console.error(
+          'Logout failed:',
+          error
+        );
+
+      }
+
+    });
 
 
   // --------------------------------------------------
   // AUTH STATE
+  // Automatically opens dashboard if owner is
+  // already signed in on this device.
   // --------------------------------------------------
 
-  auth.onAuthStateChanged((user) => {
+  auth.onAuthStateChanged(async (user) => {
 
-    if (user && user.email === OWNER_EMAIL) {
+    if (isApprovedOwner(user)) {
+
+      dashError.style.display = 'none';
 
       dashLoginView.style.display = 'none';
       dashMainView.style.display = 'block';
 
       listenForOrders();
 
-    } else {
+      return;
 
-      dashLoginView.style.display = 'block';
-      dashMainView.style.display = 'none';
+    }
 
-      if (user && user.email !== OWNER_EMAIL) {
 
-        auth.signOut();
+    dashLoginView.style.display = 'block';
+    dashMainView.style.display = 'none';
 
-        showError(
-          'This account is not authorized to view the dashboard.'
+
+    if (user) {
+
+      try {
+
+        await auth.signOut();
+
+      } catch (error) {
+
+        console.error(
+          'Unauthorized logout failed:',
+          error
         );
 
       }
 
-      if (unsubscribe) {
+      showError(
+        'This account is not authorized to view the dashboard.'
+      );
 
-        unsubscribe();
-        unsubscribe = null;
+    }
 
-      }
+
+    if (unsubscribe) {
+
+      unsubscribe();
+
+      unsubscribe = null;
 
     }
 
   });
-
 
   // --------------------------------------------------
   // MONEY HELPER
