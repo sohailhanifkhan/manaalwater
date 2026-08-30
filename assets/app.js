@@ -1413,7 +1413,7 @@ if (
 
 
 
-    // --------------------------------------------------
+        // --------------------------------------------------
     // HOMEPAGE LIVE PRODUCT CARDS
     // --------------------------------------------------
 
@@ -1439,117 +1439,180 @@ if (
           products => {
 
 
+            // ------------------------------------------
+            // HOMEPAGE PRODUCT CARDS
+            // ------------------------------------------
+
             if (
               homeProductGrid
             ) {
 
-              return `
-
-  <article class="home-product-card modern-product-card">
-
-    <div class="product-image-zone">
-
-      ${
-        p.offer
-          ? `
-            <span class="product-offer-badge">
-              SPECIAL OFFER
-            </span>
-          `
-          : `
-            <span class="product-clean-badge">
-              MANAAL WATER
-            </span>
-          `
-      }
+              homeProductGrid.innerHTML =
+                products
+                  .map(
+                    p => {
 
 
-      <img
-        src="${p.photo}"
-        alt="${p.name}"
-      >
+                      const priceHtml =
+                        p.offer
+
+                          ? `
+                            <span class="strike">
+                              Rs. ${p.regular.toLocaleString()}
+                            </span>
+
+                            <span class="price">
+                              Rs. ${p.offer.toLocaleString()}
+                            </span>
+
+                            <span class="offer-tag">
+                              OFFER
+                            </span>
+                          `
+
+                          : `
+                            <span class="price">
+                              Rs. ${p.price.toLocaleString()}
+                            </span>
+                          `;
 
 
-      <div class="product-image-glow"></div>
+                      return `
 
-    </div>
-
-
-    <div class="product-card-body">
+                        <article class="home-product-card modern-product-card">
 
 
-      <div class="product-card-heading">
-
-        <div>
-
-          <span class="product-size-pill">
-            ${p.size}
-          </span>
-
-          <h3>
-            ${p.name}
-          </h3>
-
-        </div>
-
-      </div>
+                          <div class="product-image-zone">
 
 
-      <div class="modern-price-row">
+                            ${
+                              p.offer
 
-        <div>
+                                ? `
+                                  <span class="product-offer-badge">
+                                    SPECIAL OFFER
+                                  </span>
+                                `
 
-          <span class="price-caption">
-            Today's price
-          </span>
-
-          <div class="price-row">
-            ${priceHtml}
-          </div>
-
-        </div>
-
-
-        <span class="product-availability">
-          ● Available
-        </span>
-
-      </div>
+                                : `
+                                  <span class="product-clean-badge">
+                                    MANAAL WATER
+                                  </span>
+                                `
+                            }
 
 
-      <div class="product-card-benefits">
-
-        <span>
-          ✓ Fresh
-        </span>
-
-        <span>
-          ✓ Sealed
-        </span>
-
-        <span>
-          ✓ Delivered
-        </span>
-
-      </div>
+                            <img
+                              src="${p.photo}"
+                              alt="${p.name}"
+                            >
 
 
-      <a
-        href="order.html"
-        class="btn btn-primary btn-block product-order-button"
-      >
-        Order Now →
-
-      </a>
+                            <div class="product-image-glow"></div>
 
 
-    </div>
+                          </div>
 
-  </article>
 
-`;
+
+                          <div class="product-card-body">
+
+
+                            <div class="product-card-heading">
+
+
+                              <div>
+
+
+                                <span class="product-size-pill">
+                                  ${p.size}
+                                </span>
+
+
+                                <h3>
+                                  ${p.name}
+                                </h3>
+
+
+                              </div>
+
+
+                            </div>
+
+
+
+                            <div class="modern-price-row">
+
+
+                              <div>
+
+
+                                <span class="price-caption">
+                                  Today's price
+                                </span>
+
+
+                                <div class="price-row">
+                                  ${priceHtml}
+                                </div>
+
+
+                              </div>
+
+
+
+                              <span class="product-availability">
+                                ● Available
+                              </span>
+
+
+                            </div>
+
+
+
+                            <div class="product-card-benefits">
+
+                              <span>
+                                ✓ Fresh
+                              </span>
+
+                              <span>
+                                ✓ Sealed
+                              </span>
+
+                              <span>
+                                ✓ Delivered
+                              </span>
+
+                            </div>
+
+
+
+                            <a
+                              href="order.html"
+                              class="btn btn-primary btn-block product-order-button"
+                            >
+                              Order Now →
+                            </a>
+
+
+                          </div>
+
+
+                        </article>
+
+                      `;
+
+                    }
+                  )
+                  .join('');
+
             }
 
+
+            // ------------------------------------------
+            // HERO LIVE REFILL PRICE
+            // ------------------------------------------
 
             if (
               heroRefillPrice
@@ -1565,7 +1628,9 @@ if (
                 products[0];
 
 
-              if (refill) {
+              if (
+                refill
+              ) {
 
                 heroRefillPrice.textContent =
                   `Rs. ${refill.price.toLocaleString()}`;
@@ -1574,13 +1639,21 @@ if (
 
             }
 
+
+          }
+        )
+        .catch(
+          error => {
+
+            console.warn(
+              'Could not render homepage products:',
+              error
+            );
+
           }
         );
 
     }
-
-
-
     // --------------------------------------------------
     // PAYMENT METHOD DETAILS
     // --------------------------------------------------
