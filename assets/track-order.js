@@ -73,6 +73,16 @@ document.addEventListener(
       document.getElementById(
         'trackingPayment'
       );
+    const trackingDeliverySchedule =
+  document.getElementById(
+    'trackingDeliverySchedule'
+  );
+
+
+const trackingDeliveryInstructions =
+  document.getElementById(
+    'trackingDeliveryInstructions'
+  );
 
 
     const trackingItems =
@@ -471,6 +481,86 @@ document.addEventListener(
       trackingPayment.textContent =
         order.payMethod ||
         '—';
+      if (
+  trackingDeliverySchedule
+) {
+
+  const scheduleParts = [];
+
+
+  if (
+    order.deliveryDate
+  ) {
+
+    try {
+
+      const parts =
+        String(
+          order.deliveryDate
+        ).split('-');
+
+
+      const date =
+        new Date(
+          Number(parts[0]),
+          Number(parts[1]) - 1,
+          Number(parts[2])
+        );
+
+
+      scheduleParts.push(
+        date.toLocaleDateString(
+          'en-PK',
+          {
+            day: '2-digit',
+            month: 'short',
+            year: 'numeric'
+          }
+        )
+      );
+
+
+    } catch (e) {
+
+      scheduleParts.push(
+        order.deliveryDate
+      );
+
+    }
+
+  }
+
+
+  if (
+    order.deliveryTime
+  ) {
+
+    scheduleParts.push(
+      order.deliveryTime
+    );
+
+  }
+
+
+  trackingDeliverySchedule.textContent =
+    scheduleParts.length
+
+      ? scheduleParts.join(' · ')
+
+      : 'Not scheduled';
+
+}
+
+
+if (
+  trackingDeliveryInstructions
+) {
+
+  trackingDeliveryInstructions.textContent =
+    order.deliveryInstructions ||
+    'No special instructions';
+
+}
 
 
 
