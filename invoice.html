@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
+<meta
+  name="robots"
+  content="noindex, nofollow"
+>
+
+<title>Invoice | Manaal Water</title>
+
+<link
+  rel="icon"
+  href="assets/logo.png"
+>
+
+<link
+  rel="stylesheet"
+  href="assets/style.css"
+>
+
+<style>
+
+body{
+  background:#eef5f8;
+  color:#0F2038;
+}
+
+.invoice-page{
+  max-width:900px;
+  margin:40px auto 80px;
+  padding:0 18px;
+}
+
+.invoice-actions{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-bottom:18px;
+  flex-wrap:wrap;
+}
+
+.invoice-actions-right{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.invoice-paper{
+  background:#fff;
+  border:1px solid rgba(15,32,56,.10);
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:0 20px 60px rgba(15,32,56,.10);
+}
+
+.invoice-header{
+  padding:32px 36px 26px;
+  display:flex;
+  justify-content:space-between;
+  gap:30px;
+  border-bottom:1px solid rgba(15,32,56,.10);
+}
+
+.invoice-brand{
+  display:flex;
+  gap:16px;
+  align-items:center;
+}
+
+.invoice-logo{
+  width:72px;
+  height:72px;
+  object-fit:contain;
+}
+
+.invoice-brand-name{
+  font-size:1.25rem;
+  font-weight:800;
+  letter-spacing:.02em;
+}
+
+.invoice-brand-name span{
+  color:#00C2A8;
+}
+
+.invoice-company-sub{
+  margin-top:4px;
+  font-size:.78rem;
+  color:#4C5C70;
+  line-height:1.5;
+}
+
+.invoice-title-box{
+  text-align:right;
+}
+
+.invoice-title{
+  margin:0;
+  font-size:2rem;
+  letter-spacing:.08em;
+}
+
+.invoice-number{
+  margin-top:8px;
+  font-size:.82rem;
+  color:#4C5C70;
+}
+
+.invoice-info{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:30px;
+  padding:28px 36px;
+}
+
+.invoice-block-title{
+  font-size:.7rem;
+  font-weight:800;
+  color:#4C5C70;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  margin-bottom:10px;
+}
+
+.invoice-customer-name{
+  font-size:1.05rem;
+  font-weight:800;
+  margin-bottom:5px;
+}
+
+.invoice-text{
+  font-size:.84rem;
+  line-height:1.65;
+  color:#4C5C70;
+}
+
+.invoice-meta{
+  display:grid;
+  gap:9px;
+}
+
+.invoice-meta-row{
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  font-size:.82rem;
+  padding-bottom:8px;
+  border-bottom:1px dashed rgba(15,32,56,.10);
+}
+
+.invoice-meta-row span:first-child{
+  color:#4C5C70;
+}
+
+.invoice-meta-row strong{
+  text-align:right;
+}
+
+.invoice-table-wrap{
+  padding:0 36px;
+  overflow-x:auto;
+}
+
+.invoice-table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+.invoice-table th{
+  background:#F5FBFD;
+  padding:13px 12px;
+  font-size:.72rem;
+  text-transform:uppercase;
+  letter-spacing:.05em;
+  text-align:left;
+  border-top:1px solid rgba(15,32,56,.10);
+  border-bottom:1px solid rgba(15,32,56,.10);
+}
+
+.invoice-table td{
+  padding:15px 12px;
+  border-bottom:1px solid rgba(15,32,56,.08);
+  font-size:.84rem;
+}
+
+.invoice-table th:nth-child(2),
+.invoice-table td:nth-child(2){
+  text-align:center;
+  width:80px;
+}
+
+.invoice-table th:nth-child(3),
+.invoice-table td:nth-child(3),
+.invoice-table th:nth-child(4),
+.invoice-table td:nth-child(4){
+  text-align:right;
+  width:130px;
+}
+
+.invoice-summary{
+  display:flex;
+  justify-content:flex-end;
+  padding:24px 36px 8px;
+}
+
+.invoice-summary-box{
+  width:310px;
+}
+
+.invoice-summary-row{
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  padding:7px 0;
+  font-size:.84rem;
+}
+
+.invoice-summary-row span:first-child{
+  color:#4C5C70;
+}
+
+.invoice-summary-total{
+  border-top:2px solid #0F2038;
+  margin-top:7px;
+  padding-top:13px;
+  font-size:1.15rem;
+  font-weight:800;
+}
+
+.invoice-notes{
+  margin:22px 36px;
+  padding:18px;
+  background:#F5FBFD;
+  border-radius:12px;
+}
+
+.invoice-notes-title{
+  font-size:.72rem;
+  text-transform:uppercase;
+  font-weight:800;
+  letter-spacing:.05em;
+  margin-bottom:7px;
+}
+
+.invoice-notes-text{
+  font-size:.82rem;
+  color:#4C5C70;
+  line-height:1.6;
+}
+
+.invoice-footer{
+  margin-top:26px;
+  padding:22px 36px;
+  background:#0F2038;
+  color:#fff;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:24px;
+}
+
+.invoice-footer-title{
+  font-size:.75rem;
+  font-weight:800;
+  margin-bottom:6px;
+}
+
+.invoice-footer-text{
+  font-size:.72rem;
+  line-height:1.6;
+  opacity:.8;
+}
+
+.invoice-thanks{
+  text-align:right;
+  align-self:center;
+}
+
+.invoice-thanks strong{
+  display:block;
+  font-size:.95rem;
+}
+
+.invoice-thanks span{
+  font-size:.72rem;
+  opacity:.75;
+}
+
+.invoice-message{
+  background:#fff;
+  border:1px solid rgba(15,32,56,.10);
+  border-radius:14px;
+  padding:30px;
+  text-align:center;
+  color:#4C5C70;
+}
+
+@media(max-width:700px){
+
+  .invoice-page{
+    margin-top:20px;
+  }
+
+  .invoice-header{
+    padding:24px 22px;
+    flex-direction:column;
+  }
+
+  .invoice-title-box{
+    text-align:left;
+  }
+
+  .invoice-info{
+    grid-template-columns:1fr;
+    padding:24px 22px;
+  }
+
+  .invoice-table-wrap{
+    padding:0 22px;
+  }
+
+  .invoice-summary{
+    padding:22px;
+  }
+
+  .invoice-summary-box{
+    width:100%;
+  }
+
+  .invoice-notes{
+    margin:15px 22px 22px;
+  }
+
+  .invoice-footer{
+    padding:22px;
+    grid-template-columns:1fr;
+  }
+
+  .invoice-thanks{
+    text-align:left;
+  }
+
+}
+
+@media print{
+
+  body{
+    background:#fff;
+  }
+
+  .invoice-page{
+    max-width:none;
+    margin:0;
+    padding:0;
+  }
+
+  .invoice-actions{
+    display:none !important;
+  }
+
+  .invoice-paper{
+    border:0;
+    border-radius:0;
+    box-shadow:none;
+  }
+
+  .invoice-header{
+    padding-top:15px;
+  }
+
+  @page{
+    size:A4;
+    margin:10mm;
+  }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="invoice-page">
+
+  <div class="invoice-actions">
+
+    <a
+      href="owner-dashboard.html"
+      class="btn btn-outline btn-sm"
+    >
+      ← Back to Dashboard
+    </a>
+
+    <div class="invoice-actions-right">
+
+      <button
+        id="printInvoiceBtn"
+        type="button"
+        class="btn btn-primary btn-sm"
+        style="display:none;"
+      >
+        🖨 Print / Save PDF
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <div
+    id="invoiceMessage"
+    class="invoice-message"
+  >
+    Loading invoice...
+  </div>
+
+
+  <div
+    id="invoicePaper"
+    class="invoice-paper"
+    style="display:none;"
+  >
+
+    <div class="invoice-header">
+
+      <div class="invoice-brand">
+
+        <img
+          src="assets/logo.png"
+          alt="Manaal Water"
+          class="invoice-logo"
+        >
+
+        <div>
+
+          <div class="invoice-brand-name">
+            MANAAL <span>WATER</span>
+          </div>
+
+          <div class="invoice-company-sub">
+            Pure drinking water · Mirpur AJK<br>
+            Water purification &amp; delivery service
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="invoice-title-box">
+
+        <h1 class="invoice-title">
+          INVOICE
+        </h1>
+
+        <div
+          id="invoiceNumber"
+          class="invoice-number"
+        >
+          —
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="invoice-info">
+
+      <div>
+
+        <div class="invoice-block-title">
+          Bill To
+        </div>
+
+        <div
+          id="invoiceCustomer"
+          class="invoice-customer-name"
+        >
+          —
+        </div>
+
+        <div
+          id="invoiceCustomerDetails"
+          class="invoice-text"
+        >
+          —
+        </div>
+
+      </div>
+
+
+      <div>
+
+        <div class="invoice-block-title">
+          Invoice Details
+        </div>
+
+        <div class="invoice-meta">
+
+          <div class="invoice-meta-row">
+            <span>Order No.</span>
+            <strong id="invoiceOrderNo">—</strong>
+          </div>
+
+          <div class="invoice-meta-row">
+            <span>Invoice Date</span>
+            <strong id="invoiceDate">—</strong>
+          </div>
+
+          <div class="invoice-meta-row">
+            <span>Payment</span>
+            <strong id="invoicePayment">—</strong>
+          </div>
+
+          <div class="invoice-meta-row">
+            <span>Status</span>
+            <strong id="invoiceStatus">—</strong>
+          </div>
+
+          <div class="invoice-meta-row">
+            <span>Delivery</span>
+            <strong id="invoiceDelivery">—</strong>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="invoice-table-wrap">
+
+      <table class="invoice-table">
+
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Qty</th>
+            <th>Unit Price</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+
+        <tbody id="invoiceItems"></tbody>
+
+      </table>
+
+    </div>
+
+
+    <div class="invoice-summary">
+
+      <div class="invoice-summary-box">
+
+        <div class="invoice-summary-row">
+          <span>Subtotal</span>
+          <strong id="invoiceSubtotal">Rs. 0</strong>
+        </div>
+
+        <div
+          id="invoiceDiscountRow"
+          class="invoice-summary-row"
+          style="display:none;"
+        >
+          <span>Discount</span>
+          <strong id="invoiceDiscount">Rs. 0</strong>
+        </div>
+
+        <div
+          id="invoiceDeliveryFeeRow"
+          class="invoice-summary-row"
+          style="display:none;"
+        >
+          <span>Delivery Fee</span>
+          <strong id="invoiceDeliveryFee">Rs. 0</strong>
+        </div>
+
+        <div class="invoice-summary-row invoice-summary-total">
+          <span>Total</span>
+          <strong id="invoiceTotal">Rs. 0</strong>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div
+      id="invoiceNotes"
+      class="invoice-notes"
+      style="display:none;"
+    >
+
+      <div class="invoice-notes-title">
+        Delivery Instructions
+      </div>
+
+      <div
+        id="invoiceNotesText"
+        class="invoice-notes-text"
+      ></div>
+
+    </div>
+
+
+    <div class="invoice-footer">
+
+      <div>
+
+        <div class="invoice-footer-title">
+          Manaal Water &amp; Services
+        </div>
+
+        <div class="invoice-footer-text">
+          Bankhurma, Mirpur AJK<br>
+          Phone / WhatsApp: +92 344 8845274<br>
+          Email: manaalwater@gmail.com<br>
+          Registration No: DFA/AJ/6412<br>
+          Food &amp; Drug Licence: F-342-2023
+        </div>
+
+      </div>
+
+
+      <div class="invoice-thanks">
+
+        <strong>
+          Thank you for choosing Manaal Water.
+        </strong>
+
+        <span>
+          Pure water. Delivered with trust.
+        </span>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+<script src="assets/firebase-init.js"></script>
+<script src="assets/invoice.js"></script>
+
+</body>
+
+</html>
