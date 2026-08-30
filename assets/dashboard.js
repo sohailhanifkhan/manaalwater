@@ -188,6 +188,126 @@ document.addEventListener('DOMContentLoaded', () => {
   // DASHBOARD SUMMARY
   // --------------------------------------------------
 
+  // --------------------------------------------------
+// DELIVERY SCHEDULE HELPERS
+// --------------------------------------------------
+
+function formatDeliveryDate(dateString) {
+
+  if (!dateString) {
+    return 'Not scheduled';
+  }
+
+
+  try {
+
+    const parts =
+      String(dateString)
+        .split('-');
+
+
+    if (parts.length !== 3) {
+      return dateString;
+    }
+
+
+    const year =
+      Number(parts[0]);
+
+    const month =
+      Number(parts[1]);
+
+    const day =
+      Number(parts[2]);
+
+
+    const date =
+      new Date(
+        year,
+        month - 1,
+        day
+      );
+
+
+    return date.toLocaleDateString(
+      'en-PK',
+      {
+        weekday: 'short',
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric'
+      }
+    );
+
+
+  } catch (e) {
+
+    return dateString;
+
+  }
+
+}
+
+
+
+function isDeliveryToday(dateString) {
+
+  if (!dateString) {
+    return false;
+  }
+
+
+  try {
+
+    const now =
+      new Date();
+
+
+    const year =
+      now.getFullYear();
+
+
+    const month =
+      String(
+        now.getMonth() + 1
+      ).padStart(2, '0');
+
+
+    const day =
+      String(
+        now.getDate()
+      ).padStart(2, '0');
+
+
+    const today =
+      `${year}-${month}-${day}`;
+
+
+    return dateString === today;
+
+
+  } catch (e) {
+
+    return false;
+
+  }
+
+}
+
+
+
+function escapeDashboardHtml(value) {
+
+  return String(
+    value ?? ''
+  )
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+
+}
   function updateSummary() {
 
     const todayOrders = allOrders.filter(
@@ -265,19 +385,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const haystack = [
 
-        o.orderNumber,
-        o.name,
-        o.phone,
-        o.address,
-        o.area
-        ${o.deliveryDate || ''}
-        ${o.deliveryTime || ''}
-        ${o.deliveryInstructions || ''}
-      ]
-        .filter(Boolean)
-        .join(' ')
-        .toLowerCase();
+  o.orderNumber,
+  o.name,
+  o.phone,
+  o.address,
+  o.area,
+  o.deliveryDate,
+  o.deliveryTime,
+  o.deliveryInstructions
 
+]
+  .filter(Boolean)
+  .join(' ')
+  .toLowerCase();
 
       const matchesSearch =
         !search ||
