@@ -1,0 +1,29 @@
+/* --------------------------------------------------
+   PAYMENT STATUS
+-------------------------------------------------- */
+
+.payment-status-badge{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:4px 9px;
+  margin-left:5px;
+  border-radius:999px;
+  font-size:.67rem;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:.04em;
+  vertical-align:middle;
+}
+
+.payment-paid{
+  background:rgba(0,194,168,.14);
+  color:#078876;
+  border:1px solid rgba(0,194,168,.28);
+}
+
+.payment-unpaid{
+  background:rgba(227,169,62,.16);
+  color:#956c00;
+  border:1px solid rgba(227,169,62,.30);
+}
