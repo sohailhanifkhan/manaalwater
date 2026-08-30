@@ -270,7 +270,9 @@ document.addEventListener('DOMContentLoaded', () => {
         o.phone,
         o.address,
         o.area
-
+        ${o.deliveryDate || ''}
+        ${o.deliveryTime || ''}
+        ${o.deliveryInstructions || ''}
       ]
         .filter(Boolean)
         .join(' ')
