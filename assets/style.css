@@ -6815,3 +6815,240 @@ body.home-bg::before{
   }
 
 }
+/* =========================================================
+   HEADER WATER WAVE TRANSITION
+   Replaces simple falling drops with flowing water waves
+   ========================================================= */
+
+.water-curtain{
+
+  position:relative;
+
+  width:100%;
+
+  height:38px;
+
+  margin-bottom:-38px;
+
+  overflow:hidden;
+
+  z-index:25;
+
+  pointer-events:none;
+
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(255,255,255,.94) 0%,
+      rgba(220,246,252,.65) 28%,
+      rgba(30,127,214,.18) 62%,
+      rgba(15,32,56,0) 100%
+    );
+
+}
+
+
+/* hide old falling streams */
+
+.water-curtain
+.water-stream,
+.water-curtain
+.water-drop{
+
+  display:none !important;
+
+}
+
+
+/* ---------------------------------------------------------
+   Main flowing wave
+   --------------------------------------------------------- */
+
+.water-curtain::before{
+
+  content:"";
+
+  position:absolute;
+
+  left:-35%;
+
+  top:4px;
+
+  width:170%;
+
+  height:25px;
+
+  opacity:.90;
+
+  background:
+
+    radial-gradient(
+      ellipse at 50% 100%,
+      rgba(0,194,168,.62) 0%,
+      rgba(30,127,214,.46) 42%,
+      transparent 44%
+    );
+
+  background-size:
+    110px 24px;
+
+  background-repeat:
+    repeat-x;
+
+  animation:
+    headerWaveFlow
+    5.5s linear infinite;
+
+  filter:
+    drop-shadow(
+      0 5px 6px
+      rgba(0,194,168,.12)
+    );
+
+}
+
+
+/* ---------------------------------------------------------
+   Second softer wave layer
+   --------------------------------------------------------- */
+
+.water-curtain::after{
+
+  content:"";
+
+  position:absolute;
+
+  left:-35%;
+
+  top:13px;
+
+  width:170%;
+
+  height:22px;
+
+  opacity:.42;
+
+  background:
+
+    radial-gradient(
+      ellipse at 50% 100%,
+      rgba(70,203,235,.72) 0%,
+      rgba(30,127,214,.32) 40%,
+      transparent 43%
+    );
+
+  background-size:
+    145px 20px;
+
+  background-repeat:
+    repeat-x;
+
+  animation:
+    headerWaveFlowSoft
+    8s linear infinite;
+
+}
+
+
+/* left → right main movement */
+
+@keyframes headerWaveFlow{
+
+  0%{
+
+    transform:
+      translateX(-110px);
+
+  }
+
+  100%{
+
+    transform:
+      translateX(110px);
+
+  }
+
+}
+
+
+/* slower secondary movement */
+
+@keyframes headerWaveFlowSoft{
+
+  0%{
+
+    transform:
+      translateX(-145px);
+
+  }
+
+  100%{
+
+    transform:
+      translateX(145px);
+
+  }
+
+}
+
+
+/* subtle shimmer across water */
+
+.water-curtain{
+
+  box-shadow:
+
+    inset 0 2px 5px
+    rgba(255,255,255,.65),
+
+    inset 0 -5px 12px
+    rgba(30,127,214,.08);
+
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width:640px){
+
+  .water-curtain{
+
+    height:28px;
+
+    margin-bottom:-28px;
+
+  }
+
+
+  .water-curtain::before{
+
+    top:3px;
+
+    height:20px;
+
+    background-size:
+      85px 19px;
+
+    animation-duration:
+      5s;
+
+  }
+
+
+  .water-curtain::after{
+
+    top:10px;
+
+    height:17px;
+
+    background-size:
+      110px 16px;
+
+    animation-duration:
+      7s;
+
+  }
+
+}
