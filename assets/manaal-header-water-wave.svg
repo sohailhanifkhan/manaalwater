@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="72" viewBox="0 0 1800 72" preserveAspectRatio="none">
+  <defs>
+    <linearGradient id="waterFill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#66dff2" stop-opacity="0.78"/>
+      <stop offset="38%" stop-color="#19b7d3" stop-opacity="0.72"/>
+      <stop offset="100%" stop-color="#0f6f9f" stop-opacity="0.32"/>
+    </linearGradient>
+    <linearGradient id="waterFill2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7be8f7" stop-opacity="0.50"/>
+      <stop offset="55%" stop-color="#00c2a8" stop-opacity="0.34"/>
+      <stop offset="100%" stop-color="#1e7fd6" stop-opacity="0.16"/>
+    </linearGradient>
+    <linearGradient id="shine" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="42%" stop-color="#ffffff" stop-opacity="0.55"/>
+      <stop offset="58%" stop-color="#ffffff" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="softBlur" x="-20%" y="-50%" width="140%" height="200%">
+      <feGaussianBlur stdDeviation="1.5"/>
+    </filter>
+    <path id="waveA" d="M0,34 C70,12 145,12 220,33 C300,55 380,55 460,31 C540,9 625,10 705,35 C790,59 870,58 950,31 C1030,8 1115,11 1195,36 C1270,58 1350,56 1430,31 C1510,10 1590,11 1670,34 C1720,49 1765,50 1800,43 L1800,72 L0,72 Z"/>
+    <path id="waveB" d="M0,43 C95,24 185,28 275,44 C365,60 455,58 545,40 C635,22 725,26 815,44 C905,61 995,58 1085,40 C1175,22 1265,27 1355,44 C1445,60 1535,58 1625,40 C1690,28 1750,31 1800,42 L1800,72 L0,72 Z"/>
+  </defs>
+  <g opacity="0.70">
+    <g>
+      <use href="#waveB" fill="url(#waterFill2)" x="-1800"/>
+      <use href="#waveB" fill="url(#waterFill2)" x="0"/>
+      <use href="#waveB" fill="url(#waterFill2)" x="1800"/>
+      <animateTransform attributeName="transform" type="translate" from="0 0" to="1800 0" dur="14s" repeatCount="indefinite"/>
+    </g>
+  </g>
+  <g>
+    <g>
+      <use href="#waveA" fill="url(#waterFill)" x="-1800"/>
+      <use href="#waveA" fill="url(#waterFill)" x="0"/>
+      <use href="#waveA" fill="url(#waterFill)" x="1800"/>
+      <animateTransform attributeName="transform" type="translate" from="0 0" to="1800 0" dur="9s" repeatCount="indefinite"/>
+    </g>
+  </g>
+  <g opacity="0.42" filter="url(#softBlur)">
+    <path d="M-220,27 C-120,10 -10,12 95,30 C205,49 305,46 410,26" fill="none" stroke="url(#shine)" stroke-width="3" stroke-linecap="round">
+      <animateTransform attributeName="transform" type="translate" from="0 0" to="2020 0" dur="7.5s" repeatCount="indefinite"/>
+    </path>
+    <path d="M-620,39 C-500,23 -390,24 -275,40 C-160,55 -55,53 55,37" fill="none" stroke="url(#shine)" stroke-width="2.2" stroke-linecap="round">
+      <animateTransform attributeName="transform" type="translate" from="0 0" to="2420 0" dur="10.5s" repeatCount="indefinite"/>
+    </path>
+  </g>
+</svg>
