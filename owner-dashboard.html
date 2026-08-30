@@ -283,8 +283,25 @@
     <p style="margin-bottom:18px; font-size:.88rem;">This page is private — only the Manaal Water owner account can see incoming orders here.</p>
     <div id="dashError" class="badge-note" style="display:none; margin-bottom:16px; border-color:#e0a; color:#a33;"></div>
     <form id="dashLoginForm">
-      <div class="field"><label for="dashEmail">Email</label><input id="dashEmail" type="email" required></div>
-      <div class="field"><label for="dashPass">Password</label><input id="dashPass" type="password" required></div>
+      <div class="field">
+  <label for="dashEmail">Email</label>
+  <input
+    id="dashEmail"
+    type="email"
+    autocomplete="email"
+    required
+  >
+</div>
+
+<div class="field">
+  <label for="dashPass">Password</label>
+  <input
+    id="dashPass"
+    type="password"
+    autocomplete="current-password"
+    required
+  >
+</div>
       <button type="submit" class="btn btn-primary btn-block">Log in</button>
     </form>
   </div>
