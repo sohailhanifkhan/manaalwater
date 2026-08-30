@@ -473,6 +473,96 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
 
 
+                <div class="delivery-schedule-box">
+
+  <div class="delivery-schedule-head">
+
+    <div class="delivery-schedule-title">
+      🚚 Delivery Schedule
+    </div>
+
+    ${
+      isDeliveryToday(o.deliveryDate)
+        ? `
+          <span class="delivery-today">
+            TODAY
+          </span>
+        `
+        : ''
+    }
+
+  </div>
+
+
+  ${
+    o.deliveryDate || o.deliveryTime
+
+      ? `
+
+        <div class="delivery-date">
+          ${
+            escapeDashboardHtml(
+              formatDeliveryDate(
+                o.deliveryDate
+              )
+            )
+          }
+        </div>
+
+
+        <div class="delivery-time">
+          ${
+            o.deliveryTime
+
+              ? '⏰ ' +
+                escapeDashboardHtml(
+                  o.deliveryTime
+                )
+
+              : 'Time not selected'
+          }
+        </div>
+
+      `
+
+      : `
+
+        <div class="delivery-unscheduled">
+          No delivery schedule was selected
+          for this order.
+        </div>
+
+      `
+  }
+
+
+  ${
+    o.deliveryInstructions
+
+      ? `
+
+        <div class="delivery-instructions">
+
+          <div class="delivery-instructions-label">
+            📝 Rider Note
+          </div>
+
+          <div class="delivery-instructions-text">
+            ${
+              escapeDashboardHtml(
+                o.deliveryInstructions
+              )
+            }
+          </div>
+
+        </div>
+
+      `
+
+      : ''
+  }
+
+</div>
                 <div class="order-finance">
 
                   <div class="order-detail">
