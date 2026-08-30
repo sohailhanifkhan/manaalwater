@@ -5196,3 +5196,96 @@ body.home-bg::before{
   }
 
 }
+/* =========================================================
+   LEGACY PAGE HEADER COMPATIBILITY
+   Keeps Order, Account, Contact and other existing pages
+   compatible with the new shared navigation stylesheet.
+   ========================================================= */
+
+
+/* Existing pages use:
+   <nav class="nav">
+     <div class="container">
+   instead of the newer .nav-shell structure.
+*/
+
+.nav > .container{
+  min-height:78px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:22px;
+}
+
+
+/* Existing pages place the logo image directly
+   inside .brand. Keep that image controlled.
+*/
+
+.brand > img{
+  width:auto;
+  height:52px;
+  max-width:72px;
+  object-fit:contain;
+  flex-shrink:0;
+}
+
+
+/* Keep legacy brand text beside the logo */
+
+.brand > .brand-name{
+  display:inline-block;
+  white-space:nowrap;
+}
+
+
+/* Ensure legacy page navigation actions
+   remain properly aligned.
+*/
+
+.nav > .container > .nav-actions{
+  margin-left:auto;
+}
+
+
+/* ---------------------------------------------------------
+   TABLET
+   --------------------------------------------------------- */
+
+@media (max-width:980px){
+
+  .nav > .container{
+    min-height:72px;
+  }
+
+  .brand > img{
+    height:46px;
+    max-width:64px;
+  }
+
+}
+
+
+/* ---------------------------------------------------------
+   MOBILE
+   --------------------------------------------------------- */
+
+@media (max-width:640px){
+
+  .nav > .container{
+    min-height:66px;
+    padding-left:18px;
+    padding-right:18px;
+    gap:10px;
+  }
+
+  .brand > img{
+    height:40px;
+    max-width:56px;
+  }
+
+  .brand > .brand-name{
+    font-size:.88rem;
+  }
+
+}
