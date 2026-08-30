@@ -174,8 +174,20 @@
 
       <div class="tab-panel" id="login-panel">
         <form id="loginForm">
-          <div class="field"><label for="loginEmail">Email</label><input id="loginEmail" type="email" required placeholder="you@example.com"></div>
-          <div class="field"><label for="loginPass">Password</label><input id="loginPass" type="password" required placeholder="••••••••"></div>
+          <div class="field"><label for="loginEmail">Email</label><input
+  id="loginEmail"
+  type="email"
+  required
+  autocomplete="email"
+  placeholder="you@example.com"
+></div>
+          <div class="field"><label for="loginPass">Password</label><input
+  id="loginPass"
+  type="password"
+  required
+  autocomplete="current-password"
+  placeholder="••••••••"
+></div>
           <button type="submit" class="btn btn-primary btn-block">Log in</button>
         </form>
       </div>
