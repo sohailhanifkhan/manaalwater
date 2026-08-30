@@ -1443,70 +1443,111 @@ if (
               homeProductGrid
             ) {
 
-              homeProductGrid.innerHTML =
-                products
-                  .map(
-                    p => {
+              return `
 
-                      const priceHtml =
-                        p.offer
+  <article class="home-product-card modern-product-card">
 
-                          ? `
-                            <span class="strike">
-                              Rs. ${p.regular.toLocaleString()}
-                            </span>
+    <div class="product-image-zone">
 
-                            <span class="price">
-                              Rs. ${p.offer.toLocaleString()}
-                            </span>
-
-                            <span class="offer-tag">
-                              OFFER
-                            </span>
-                          `
-
-                          : `
-                            <span class="price">
-                              Rs. ${p.price.toLocaleString()}
-                            </span>
-                          `;
+      ${
+        p.offer
+          ? `
+            <span class="product-offer-badge">
+              SPECIAL OFFER
+            </span>
+          `
+          : `
+            <span class="product-clean-badge">
+              MANAAL WATER
+            </span>
+          `
+      }
 
 
-                      return `
+      <img
+        src="${p.photo}"
+        alt="${p.name}"
+      >
 
-                        <div class="card home-product-card">
 
-                          <img
-                            src="${p.photo}"
-                            alt="${p.name}"
-                          >
+      <div class="product-image-glow"></div>
 
-                          <h3>
-                            ${p.name}
-                          </h3>
+    </div>
 
-                          <span class="p-size-tag">
-                            ${p.size}
-                          </span>
 
-                          <div class="price-row">
-                            ${priceHtml}
-                          </div>
+    <div class="product-card-body">
 
-                          <a
-                            href="order.html"
-                            class="btn btn-outline btn-block mt-lg">
-                            Order this
-                          </a>
 
-                        </div>
+      <div class="product-card-heading">
 
-                      `;
+        <div>
 
-                    }
-                  )
-                  .join('');
+          <span class="product-size-pill">
+            ${p.size}
+          </span>
 
+          <h3>
+            ${p.name}
+          </h3>
+
+        </div>
+
+      </div>
+
+
+      <div class="modern-price-row">
+
+        <div>
+
+          <span class="price-caption">
+            Today's price
+          </span>
+
+          <div class="price-row">
+            ${priceHtml}
+          </div>
+
+        </div>
+
+
+        <span class="product-availability">
+          ● Available
+        </span>
+
+      </div>
+
+
+      <div class="product-card-benefits">
+
+        <span>
+          ✓ Fresh
+        </span>
+
+        <span>
+          ✓ Sealed
+        </span>
+
+        <span>
+          ✓ Delivered
+        </span>
+
+      </div>
+
+
+      <a
+        href="order.html"
+        class="btn btn-primary btn-block product-order-button"
+      >
+        Order Now →
+
+      </a>
+
+
+    </div>
+
+  </article>
+
+`;
             }
 
 
