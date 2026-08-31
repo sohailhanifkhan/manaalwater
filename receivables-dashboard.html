@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Receivables Dashboard | Manaal Water</title>
+<link rel="icon" href="assets/logo.png">
+<style>
+:root{--navy:#10253f;--blue:#173a63;--aqua:#eef7fb;--line:#d9e6ec;--ink:#132238;--soft:#607083;--green:#0b7a53;--orange:#9a6000;--red:#a23b3b}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,Arial,sans-serif;background:#f5f8fa;color:var(--ink)}
+.topbar{background:var(--navy);color:#fff;padding:15px 22px}.topbar-inner{max-width:1240px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800}.brand img{width:40px;height:40px;object-fit:contain}.topbar a{color:#fff;text-decoration:none;border:1px solid rgba(255,255,255,.45);border-radius:8px;padding:8px 12px;font-size:.86rem}
+.wrap{max-width:1240px;margin:24px auto 60px;padding:0 18px}.panel{background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 8px 24px rgba(16,37,63,.06);overflow:hidden}
+.panel-head{background:linear-gradient(135deg,var(--navy),var(--blue));color:#fff;padding:22px}.panel-head h1{margin:0 0 6px;font-size:1.45rem}.panel-head p{margin:0;opacity:.82;font-size:.9rem}
+.filters{padding:18px 22px;display:grid;grid-template-columns:1.2fr 1fr 1fr auto;gap:12px;align-items:end;border-bottom:1px solid var(--line)}
+.field label{display:block;font-size:.8rem;font-weight:700;margin-bottom:6px}.field select,.field input{width:100%;min-height:42px;border:1px solid #cbdbe3;border-radius:8px;padding:9px 10px;background:#fff;font:inherit}
+.btn{border:0;border-radius:8px;padding:11px 16px;cursor:pointer;font-weight:700}.btn-primary{background:var(--blue);color:#fff}.btn-outline{background:#fff;border:1px solid #b9cbd5;color:var(--navy)}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding:20px 22px 8px}.card{border:1px solid var(--line);border-radius:12px;padding:16px;background:#fff}.card .label{font-size:.78rem;color:var(--soft);font-weight:700;text-transform:uppercase;letter-spacing:.03em}.card .value{margin-top:8px;font-size:1.6rem;font-weight:800;color:var(--navy)}.card .sub{margin-top:5px;font-size:.78rem;color:var(--soft)}
+.section{padding:14px 22px 22px}.section h2{font-size:1.05rem;color:var(--navy);margin:4px 0 12px}.table-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+table{width:100%;border-collapse:collapse}th,td{padding:10px 9px;border-bottom:1px solid #e5edf1;text-align:left;vertical-align:top;font-size:.82rem}th{background:var(--navy);color:#fff}.money{text-align:right;white-space:nowrap}
+.status-pill{display:inline-block;border-radius:999px;padding:4px 9px;font-size:.73rem;font-weight:800}.status-open{background:#fff2d7;color:#825300}.status-partial{background:#eaf2ff;color:#24558f}.status-settled{background:#e8f7f0;color:var(--green)}
+.aging{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.aging-box{border:1px solid var(--line);border-radius:10px;padding:15px;background:#fbfdfe}.aging-box strong{display:block;margin-top:7px;font-size:1.25rem;color:var(--navy)}
+.message{margin:18px 22px;padding:12px 14px;border-radius:8px;background:#fff7df;color:#755000}.empty{padding:24px;color:var(--soft);text-align:center}
+@media(max-width:900px){.filters{grid-template-columns:1fr 1fr}.cards{grid-template-columns:1fr 1fr}.aging{grid-template-columns:1fr 1fr}}@media(max-width:600px){.filters,.cards,.aging{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="topbar"><div class="topbar-inner"><div class="brand"><img src="assets/logo.png" alt="Manaal Water"><span>MANAAL WATER — RECEIVABLES</span></div><a href="owner-dashboard.html">← Owner Dashboard</a></div></div>
+<div class="wrap">
+<div id="loginGate" class="panel" style="padding:24px;">Checking owner access...</div>
+<div id="app" class="panel" style="display:none;">
+<div class="panel-head"><h1>Receivables Dashboard</h1><p>Outstanding monthly accounts, collections, settlement status and aging.</p></div>
+<div class="filters">
+<div class="field"><label for="monthFilter">Billing Month</label><input id="monthFilter" type="month"></div>
+<div class="field"><label for="statusFilter">Account Status</label><select id="statusFilter"><option value="">All</option><option value="Open">Open</option><option value="Partially Paid">Partially Paid</option><option value="Settled">Settled</option></select></div>
+<div class="field"><label for="customerSearch">Customer Search</label><input id="customerSearch" type="search" placeholder="Customer name or ID"></div>
+<button id="refreshBtn" class="btn btn-primary" type="button">Refresh</button>
+</div>
+<div id="message" class="message">Loading monthly account data...</div>
+<div class="cards">
+<div class="card"><div class="label">Total Receivable</div><div id="totalReceivable" class="value">Rs. 0</div><div class="sub">Statement value for selected month</div></div>
+<div class="card"><div class="label">Total Received</div><div id="totalReceived" class="value">Rs. 0</div><div class="sub">Collections recorded</div></div>
+<div class="card"><div class="label">Outstanding</div><div id="totalOutstanding" class="value">Rs. 0</div><div class="sub">Still to be collected</div></div>
+<div class="card"><div class="label">Collection %</div><div id="collectionPercent" class="value">0%</div><div class="sub">Received ÷ receivable</div></div>
+</div>
+<div class="cards">
+<div class="card"><div class="label">Open Accounts</div><div id="openAccounts" class="value">0</div></div>
+<div class="card"><div class="label">Partially Paid</div><div id="partialAccounts" class="value">0</div></div>
+<div class="card"><div class="label">Settled</div><div id="settledAccounts" class="value">0</div></div>
+<div class="card"><div class="label">Active Statements</div><div id="statementCount" class="value">0</div></div>
+</div>
+<div class="section"><h2>Aging Summary</h2><div class="aging"><div class="aging-box">0–30 Days<strong id="aging30">Rs. 0</strong></div><div class="aging-box">31–60 Days<strong id="aging60">Rs. 0</strong></div><div class="aging-box">61–90 Days<strong id="aging90">Rs. 0</strong></div><div class="aging-box">90+ Days<strong id="aging90plus">Rs. 0</strong></div></div></div>
+<div class="section"><h2>Customer Receivables</h2><div class="table-wrap"><table><thead><tr><th>Customer</th><th>Customer ID</th><th>Month</th><th>Status</th><th class="money">Statement</th><th class="money">Received</th><th class="money">Outstanding</th><th>Age</th><th>Action</th></tr></thead><tbody id="receivablesRows"></tbody></table></div></div>
+</div></div>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="assets/firebase-init.js"></script>
+<script src="assets/receivables-dashboard.js"></script>
+</body></html>
