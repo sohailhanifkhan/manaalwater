@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Monthly Customer Statement | Manaal Water</title>
+<link rel="icon" href="assets/logo.png">
+
+<style>
+:root{
+  --navy:#10253f;
+  --blue:#173a63;
+  --aqua:#eef7fb;
+  --line:#d9e6ec;
+  --ink:#132238;
+  --soft:#607083;
+  --green:#0b7a53;
+  --orange:#9a6000;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Inter,Arial,sans-serif;
+  background:#f5f8fa;
+  color:var(--ink);
+}
+.topbar{
+  background:var(--navy);
+  color:white;
+  padding:15px 22px;
+}
+.topbar-inner{
+  max-width:1180px;
+  margin:auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:14px;
+  flex-wrap:wrap;
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight:800;
+}
+.brand img{width:40px;height:40px;object-fit:contain}
+.topbar a{
+  color:white;
+  text-decoration:none;
+  border:1px solid rgba(255,255,255,.45);
+  border-radius:8px;
+  padding:8px 12px;
+  font-size:.86rem;
+}
+.wrap{
+  max-width:1180px;
+  margin:24px auto 60px;
+  padding:0 18px;
+}
+.panel{
+  background:white;
+  border:1px solid var(--line);
+  border-radius:14px;
+  box-shadow:0 8px 24px rgba(16,37,63,.06);
+  overflow:hidden;
+}
+.panel-head{
+  background:linear-gradient(135deg,var(--navy),var(--blue));
+  color:white;
+  padding:22px;
+}
+.panel-head h1{margin:0 0 6px;font-size:1.45rem}
+.panel-head p{margin:0;opacity:.82;font-size:.9rem}
+.controls{
+  padding:18px 22px;
+  display:grid;
+  grid-template-columns:2fr 1fr auto;
+  gap:12px;
+  align-items:end;
+  border-bottom:1px solid var(--line);
+}
+.field label{
+  display:block;
+  font-size:.8rem;
+  font-weight:700;
+  margin-bottom:6px;
+}
+.field select,.field input{
+  width:100%;
+  min-height:42px;
+  border:1px solid #cbdbe3;
+  border-radius:8px;
+  padding:9px 10px;
+  background:white;
+}
+.btn{
+  border:0;
+  border-radius:8px;
+  padding:11px 16px;
+  cursor:pointer;
+  font-weight:700;
+}
+.btn-primary{background:var(--blue);color:white}
+.btn-outline{background:white;border:1px solid #b9cbd5;color:var(--navy)}
+.actions{
+  padding:0 22px 18px;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.message{
+  margin:18px 22px;
+  padding:12px 14px;
+  border-radius:8px;
+  background:#fff7df;
+  color:#755000;
+}
+.statement{
+  margin:22px;
+  border:1px solid var(--line);
+  background:white;
+}
+.statement-title{
+  padding:20px;
+  border-bottom:2px solid var(--navy);
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  flex-wrap:wrap;
+}
+.statement-title h2{margin:0;color:var(--navy)}
+.meta{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+  padding:15px 20px;
+  background:var(--aqua);
+}
+.meta div{
+  font-size:.82rem;
+}
+.meta strong{
+  display:block;
+  margin-bottom:3px;
+}
+table{
+  width:100%;
+  border-collapse:collapse;
+}
+th,td{
+  padding:10px 9px;
+  border-bottom:1px solid #e3ebef;
+  text-align:left;
+  vertical-align:top;
+  font-size:.82rem;
+}
+th{
+  background:var(--navy);
+  color:white;
+}
+.money{text-align:right;white-space:nowrap}
+.summary{
+  margin-left:auto;
+  width:min(440px,100%);
+  padding:18px 20px 24px;
+}
+.summary-row{
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  padding:7px 0;
+  border-bottom:1px solid #e7edf0;
+}
+.summary-row.total{
+  font-weight:800;
+  font-size:1.05rem;
+  color:var(--navy);
+  border-top:2px solid var(--navy);
+  margin-top:5px;
+}
+.note{
+  padding:14px 20px;
+  font-size:.8rem;
+  color:var(--soft);
+}
+.status-pill{
+  display:inline-block;
+  background:#eaf7f2;
+  color:var(--green);
+  border-radius:999px;
+  padding:4px 9px;
+  font-size:.75rem;
+  font-weight:700;
+}
+@media(max-width:760px){
+  .controls{grid-template-columns:1fr}
+  .meta{grid-template-columns:1fr 1fr}
+  .statement{margin:10px}
+  .table-wrap{overflow-x:auto}
+}
+@media print{
+  body{background:white}
+  .topbar,.controls,.actions,.message{display:none!important}
+  .wrap{max-width:none;margin:0;padding:0}
+  .panel{border:0;box-shadow:none}
+  .panel-head{display:none}
+  .statement{margin:0;border:0}
+}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <img src="assets/logo.png" alt="Manaal Water">
+      <span>MANAAL WATER — CUSTOMER ACCOUNTS</span>
+    </div>
+    <a href="owner-dashboard.html">← Owner Dashboard</a>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div id="loginGate" class="panel" style="padding:24px;">
+    Checking owner access...
+  </div>
+
+  <div id="statementApp" class="panel" style="display:none;">
+
+    <div class="panel-head">
+      <h1>Monthly Customer Statement</h1>
+      <p>Consolidated month-end billing for permanent Monthly Account customers.</p>
+    </div>
+
+    <div class="controls">
+      <div class="field">
+        <label for="statementCustomer">Permanent Customer</label>
+        <select id="statementCustomer">
+          <option value="">Loading customers...</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="statementMonth">Billing Month</label>
+        <input id="statementMonth" type="month">
+      </div>
+
+      <button id="loadStatementBtn" class="btn btn-primary" type="button">
+        Generate Statement
+      </button>
+    </div>
+
+    <div class="actions">
+      <button id="printStatementBtn" class="btn btn-outline" type="button">
+        Print / Save PDF
+      </button>
+    </div>
+
+    <div id="statementMessage" class="message">
+      Select a customer and month. Only orders marked <strong>Delivered</strong> are billed.
+    </div>
+
+    <div id="statementView" class="statement" style="display:none;">
+
+      <div class="statement-title">
+        <div>
+          <h2>MANAAL WATER</h2>
+          <div>Monthly Consolidated Invoice / Statement</div>
+        </div>
+        <div style="text-align:right;">
+          <strong id="statementNumber">—</strong><br>
+          <span id="statementPeriod">—</span>
+        </div>
+      </div>
+
+      <div class="meta">
+        <div>
+          <strong>Customer</strong>
+          <span id="statementCustomerName">—</span>
+        </div>
+        <div>
+          <strong>Customer ID</strong>
+          <span id="statementCustomerId">—</span>
+        </div>
+        <div>
+          <strong>Billing Type</strong>
+          Monthly Account
+        </div>
+        <div>
+          <strong>Status</strong>
+          <span class="status-pill">OPEN</span>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Order No.</th>
+              <th>Delivery / Products</th>
+              <th>Qty</th>
+              <th class="money">Subtotal</th>
+              <th class="money">Balance / Adj.</th>
+              <th class="money">Order Total</th>
+            </tr>
+          </thead>
+          <tbody id="statementRows"></tbody>
+        </table>
+      </div>
+
+      <div class="summary">
+        <div class="summary-row">
+          <span>Delivered Orders</span>
+          <strong id="statementOrderCount">0</strong>
+        </div>
+        <div class="summary-row">
+          <span>Product Subtotal</span>
+          <strong id="statementSubtotal">Rs. 0</strong>
+        </div>
+        <div class="summary-row">
+          <span>Previous Balance / Adjustments</span>
+          <strong id="statementPreviousBalance">Rs. 0</strong>
+        </div>
+        <div class="summary-row">
+          <span>Discount</span>
+          <strong id="statementDiscount">Rs. 0</strong>
+        </div>
+        <div class="summary-row">
+          <span>Delivery Fee</span>
+          <strong id="statementDeliveryFee">Rs. 0</strong>
+        </div>
+        <div class="summary-row total">
+          <span>Amount Payable</span>
+          <strong id="statementTotal">Rs. 0</strong>
+        </div>
+      </div>
+
+      <div class="note">
+        This statement consolidates delivered Monthly Account orders for the selected billing period.
+        Payment settlement by cheque or bank transfer will be added in the next account-settlement stage.
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="assets/firebase-init.js"></script>
+<script src="assets/customer-statement.js"></script>
+
+</body>
+</html>
