@@ -1971,6 +1971,28 @@ document.addEventListener(
     setToday();
 
 
+    const urlParams =
+      new URLSearchParams(
+        window.location.search
+      );
+
+    const requestedCustomer =
+      urlParams.get(
+        'customer'
+      );
+
+    const requestedMonth =
+      urlParams.get(
+        'month'
+      );
+
+
+    if (requestedMonth) {
+      monthInput.value =
+        requestedMonth;
+    }
+
+
     auth.onAuthStateChanged(
       user => {
 
@@ -1992,7 +2014,26 @@ document.addEventListener(
           statementApp.style.display =
             'block';
 
-          loadCustomers();
+          loadCustomers()
+            .then(() => {
+
+              if (
+                requestedCustomer &&
+                customers.some(
+                  customer =>
+                    customer.id ===
+                    requestedCustomer
+                )
+              ) {
+
+                customerSelect.value =
+                  requestedCustomer;
+
+                generateStatement();
+
+              }
+
+            });
 
         } else {
 
