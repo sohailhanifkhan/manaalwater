@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Monthly Billing | Manaal Water</title>
+<link rel="icon" href="assets/logo.png">
+<style>
+:root{
+  --navy:#10253f;--blue:#1849a9;--cyan:#27a8dc;--ink:#1a2433;
+  --soft:#667085;--line:#d7dde5;--paper:#fff;--bg:#eef3f7;
+  --green:#087a55;--orange:#9a6000;--red:#a33a3a;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,sans-serif}
+.owner-bar{background:var(--navy);color:#fff;padding:12px 18px}
+.owner-bar-inner{max-width:1050px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.owner-bar a{color:#fff;text-decoration:none;border:1px solid rgba(255,255,255,.45);border-radius:8px;padding:7px 11px;font-size:.84rem}
+.page{max-width:1050px;margin:22px auto 60px;padding:0 16px}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;margin-bottom:16px;overflow:hidden}
+.card-head{background:#173a63;color:#fff;padding:14px 18px}
+.card-head h1,.card-head h2{margin:0 0 4px}
+.card-head h1{font-size:1.16rem}.card-head h2{font-size:1rem}
+.card-head p{margin:0;font-size:.84rem;opacity:.87}
+.controls{padding:16px 18px;display:grid;grid-template-columns:1.45fr 1fr 1fr 1fr;gap:12px;align-items:end}
+.mode-row{padding:0 18px 16px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.mode-row label{display:flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:9px;padding:9px 12px;background:#fff;cursor:pointer}
+.field label{display:block;margin-bottom:6px;font-size:.78rem;font-weight:700}
+.field input,.field select{width:100%;min-height:42px;border:1px solid #c7d3dd;border-radius:8px;padding:9px 10px;font:inherit;background:#fff}
+.actions{display:flex;gap:9px;flex-wrap:wrap;padding:0 18px 16px}
+.btn{border:0;border-radius:8px;padding:10px 14px;font-weight:700;cursor:pointer}
+.btn-primary{background:#173a63;color:#fff}.btn-outline{background:#fff;border:1px solid #b9c8d2;color:#173a63}.btn-success{background:#087a55;color:#fff}
+.btn:disabled{opacity:.55;cursor:not-allowed}
+.message{background:#fff7dd;color:#6e5100;padding:12px 14px;border-radius:8px;margin-bottom:14px}
+.help{padding:12px 18px;background:#f7fafc;border-top:1px solid var(--line);font-size:.82rem;color:var(--soft);line-height:1.5}
+.invoice-paper{display:none;background:var(--paper);min-height:1120px;padding:28px 28px 22px;box-shadow:0 10px 30px rgba(16,37,63,.10);border:1px solid #dde3e8;font-family:"Courier New",Courier,monospace}
+.invoice-head{display:grid;grid-template-columns:150px 1fr;gap:16px;align-items:start}
+.invoice-logo{width:135px;max-height:100px;object-fit:contain}
+.company{border-left:5px solid #d9dde2;padding-left:14px}
+.company-name{font-style:italic;font-weight:900;letter-spacing:1px;font-size:1.34rem}
+.company-line{margin-top:7px;font-size:.8rem;line-height:1.6}.website{color:#124ad1;font-weight:800;margin-top:24px;font-size:.8rem}
+.customer-block{width:48%;margin-left:auto;margin-top:52px;min-height:70px;font-size:.9rem;line-height:1.4}
+.invoice-title{color:var(--blue);font-size:1.75rem;margin:20px 0 12px;letter-spacing:.5px}
+.date-grid{display:grid;grid-template-columns:1fr 1fr;width:70%;gap:40px;margin-bottom:24px}
+.date-label{color:var(--cyan);font-weight:800;font-size:.8rem;margin-bottom:4px}.date-value{font-size:.82rem}
+.invoice-table{width:100%;border-collapse:collapse;table-layout:fixed}
+.invoice-table th{text-align:left;font-weight:400;padding:8px 7px;border-bottom:1px solid #aeb5bd;font-size:.82rem}
+.invoice-table td{padding:9px 7px;border-bottom:1px solid #e1e5e9;font-size:.8rem;vertical-align:top}
+.invoice-table tbody tr:nth-child(odd){background:#f1f2f3}
+.invoice-table .desc{width:44%}.invoice-table .qty{width:13%;text-align:right}.invoice-table .unit{width:16%;text-align:right}.invoice-table .tax{width:11%;text-align:center}.invoice-table .amt{width:16%;text-align:right}
+.balance-sub{display:block;font-weight:400;margin-top:2px}.billing-month-line{color:#1849a9;font-weight:800}
+.totals-layout{display:grid;grid-template-columns:1fr 44%;gap:18px}
+.payment-communication{padding-top:20px;font-size:.78rem;line-height:1.55}.payment-communication strong{font-weight:900}
+.total-box{border-left:1px solid #e1e5e9}.total-row{display:flex;justify-content:space-between;gap:20px;padding:9px 10px;border-bottom:1px solid #e1e5e9;font-size:.8rem}
+.total-row.total{color:var(--blue);font-weight:900;font-size:.9rem}
+.total-words{text-align:right;padding-top:8px;font-size:.73rem;line-height:1.5}.amount-words{color:#707784;display:block;margin-top:4px}
+.status-line{margin-top:12px;text-align:right;font-family:Arial,sans-serif}.status-pill{display:inline-block;padding:5px 10px;border-radius:999px;font-size:.72rem;font-weight:800}
+.status-open{background:#fff2d7;color:#825300}.status-partial{background:#eaf2ff;color:#24558f}.status-settled{background:#e8f7f0;color:var(--green)}
+.invoice-spacer{height:250px}.footer{border-top:1px solid #3d4248;margin-top:20px;padding-top:8px;font-size:.68rem;text-align:center}
+.footer-contact{background:#f4f5f6;border:1px solid #d6d9dd;padding:5px;font-weight:700}.footer-tag{color:#1685bb;text-decoration:underline;font-style:italic;font-weight:900;margin:24px 0}
+.settlement-body{padding:16px}.settlement-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.span-3{grid-column:1/-1}
+.history-table{width:100%;border-collapse:collapse}.history-table th,.history-table td{border-bottom:1px solid #e3e8ed;padding:8px;text-align:left;font-size:.78rem}.history-table th{background:#f3f6f8}.history-table .money{text-align:right}
+.empty-history{color:var(--soft);background:#f7fafb;border:1px dashed #c8d3dc;padding:12px;border-radius:8px;font-size:.82rem}
+@media(max-width:820px){.controls{grid-template-columns:1fr 1fr}.settlement-grid{grid-template-columns:1fr}.span-3{grid-column:auto}}
+@media(max-width:620px){.controls{grid-template-columns:1fr}.invoice-paper{padding:16px 12px;min-height:auto}.invoice-head{grid-template-columns:100px 1fr}.invoice-logo{width:90px}.company-name{font-size:1rem}.company-line,.website{font-size:.65rem}.customer-block{width:60%;margin-top:30px}.invoice-title{font-size:1.3rem}.date-grid{width:100%}.invoice-table{min-width:680px}.table-wrap{overflow-x:auto}.totals-layout{grid-template-columns:1fr}.total-box{border-left:0}.invoice-spacer{height:110px}}
+@media print{@page{size:A4;margin:10mm}body{background:#fff}.owner-bar,.card,.message{display:none!important}.page{max-width:none;margin:0;padding:0}.invoice-paper{display:block!important;box-shadow:none;border:0;padding:0;min-height:270mm}.invoice-spacer{height:65mm}}
+</style>
+</head>
+<body>
+<div class="owner-bar"><div class="owner-bar-inner"><strong>Manaal Water — Monthly Billing</strong><a href="owner-dashboard.html">← Owner Dashboard</a></div></div>
+<div class="page">
+  <div id="loginGate" class="card" style="padding:20px;">Checking owner access...</div>
+
+  <div id="statementApp" style="display:none;">
+    <div class="card">
+      <div class="card-head">
+        <h1>Monthly Invoice & Final Billing Invoice</h1>
+        <p>Create a single-month invoice first, then create a final billing invoice that keeps the selected billing month as current and adds only older unpaid months as pending balances.</p>
+      </div>
+
+      <div class="mode-row">
+        <strong style="margin-right:4px;">Invoice Type:</strong>
+        <label><input type="radio" name="invoiceMode" value="monthly" checked> Single Month Invoice</label>
+        <label><input type="radio" name="invoiceMode" value="final"> Final Billing Invoice</label>
+      </div>
+
+      <div class="controls">
+        <div class="field">
+          <label for="statementCustomer">Permanent Customer</label>
+          <select id="statementCustomer"><option value="">Loading customers...</option></select>
+        </div>
+        <div class="field">
+          <label for="statementMonth">Billing / Delivery Month</label>
+          <input id="statementMonth" type="month">
+        </div>
+        <div class="field">
+          <label for="invoiceIssueDateInput">Invoice Issue Date</label>
+          <input id="invoiceIssueDateInput" type="date">
+        </div>
+        <div class="field">
+          <label for="invoiceDueDateInput">Due Date</label>
+          <input id="invoiceDueDateInput" type="date">
+        </div>
+      </div>
+
+      <div class="actions">
+        <button id="generateBtn" class="btn btn-primary" type="button">Generate Invoice</button>
+        <button id="saveMonthlyInvoiceBtn" class="btn btn-success" type="button">Save / Freeze Monthly Invoice</button>
+        <button id="printStatementBtn" class="btn btn-outline" type="button">Print / Save PDF</button>
+      </div>
+
+      <div class="help">
+        <strong>Single Month Invoice:</strong> shows only the selected billing/delivery month. Use this to create August, September, October, etc. separately.<br>
+        <strong>Final Billing Invoice:</strong> shows the selected month as the current billing month. Only earlier unpaid or partially paid months appear underneath as “Balance — Pending Month of …”. The selected billing month is never labelled as outstanding.
+      </div>
+    </div>
+
+    <div id="statementMessage" class="message">
+      Select the customer, billing month, issue date and due date.
+    </div>
+
+    <div id="statementView" class="invoice-paper">
+      <div class="invoice-head">
+        <img src="assets/logo.png" alt="Manaal Water" class="invoice-logo">
+        <div class="company">
+          <div class="company-name">MANAAL WATER BOTTLES &amp; SERVICES</div>
+          <div class="company-line">RO water treatment Plant Bankhurma Mirpur AJK | Registration No.<br>DFA/AJ/6412 | Food &amp; Drug licence. : F-342-2023.</div>
+          <div class="website">www.manaalwater.com.pk</div>
+        </div>
+      </div>
+
+      <div class="customer-block">
+        <strong id="invoiceCustomerName">—</strong><br>
+        <span id="invoiceCustomerAddress">—</span>
+      </div>
+
+      <div class="invoice-title">Invoice <span id="statementNumber">—</span></div>
+
+      <div class="date-grid">
+        <div><div class="date-label">Invoice Date</div><div id="invoiceDate" class="date-value">—</div></div>
+        <div><div class="date-label">Due Date</div><div id="dueDate" class="date-value">—</div></div>
+      </div>
+
+      <div class="table-wrap">
+        <table class="invoice-table">
+          <thead><tr><th class="desc">Description</th><th class="qty">Quantity</th><th class="unit">Unit Price</th><th class="tax">Taxes</th><th class="amt">Amount</th></tr></thead>
+          <tbody id="statementRows"></tbody>
+        </table>
+      </div>
+
+      <div class="totals-layout">
+        <div class="payment-communication">
+          Payment Communication: <strong id="paymentCommunication">—</strong><br>
+          on this account: <strong>PK32FAYS3019355000004293</strong> -<br>
+          <strong>Faysal Bank Limited</strong>
+        </div>
+        <div>
+          <div class="total-box">
+            <div class="total-row"><span>Billing Month Charges</span><strong id="currentMonthAmount">0.00 Rs.</strong></div>
+            <div class="total-row" id="previousBalanceSummaryRow"><span>Previous Pending Balance</span><strong id="previousBalanceAmount">0.00 Rs.</strong></div>
+            <div class="total-row"><span>Received Against Current Month</span><strong id="totalReceived">0.00 Rs.</strong></div>
+            <div class="total-row total"><span>Total Due</span><strong id="totalOutstanding">0.00 Rs.</strong></div>
+          </div>
+          <div class="total-words">Total amount in words:<span id="amountInWords" class="amount-words">Zero Rupee</span></div>
+          <div class="status-line"><span id="statementStatus" class="status-pill status-open">OPEN</span></div>
+        </div>
+      </div>
+
+      <div class="invoice-spacer"></div>
+
+      <div class="footer">
+        <div class="footer-contact">manaalwater@gmail.com - 0092-344-8845274</div>
+        <div class="footer-tag">WATER THAT YOU DESERVE</div>
+        <div>© 2022 Manaal Water &amp; Services. All rights reserved.</div>
+      </div>
+    </div>
+
+    <div id="settlementCard" class="card" style="display:none;margin-top:16px;">
+      <div class="card-head"><h2>Payment & Settlement</h2><p>Payments are allocated to the oldest pending month first, then to the selected billing month.</p></div>
+      <div class="settlement-body">
+        <div class="settlement-grid">
+          <div class="field"><label for="paymentAmount">Amount Received (Rs.) *</label><input id="paymentAmount" type="number" min="1" step="0.01"></div>
+          <div class="field"><label for="paymentMethod">Payment Method *</label><select id="paymentMethod"><option>Cheque</option><option>Bank Transfer</option><option>Cash</option><option>JazzCash / EasyPaisa</option></select></div>
+          <div class="field"><label for="paymentDate">Payment Date *</label><input id="paymentDate" type="date"></div>
+          <div class="field"><label for="paymentBankCheque">Bank / Cheque Details</label><input id="paymentBankCheque" type="text"></div>
+          <div class="field"><label for="paymentReference">Reference Number</label><input id="paymentReference" type="text"></div>
+          <div class="field"><label for="paymentNotes">Notes</label><input id="paymentNotes" type="text"></div>
+          <div class="span-3"><button id="recordPaymentBtn" class="btn btn-primary" type="button">Record Payment</button></div>
+        </div>
+        <div style="margin-top:18px">
+          <h3 style="font-size:.9rem;margin:0 0 9px">Payment History</h3>
+          <div id="paymentHistoryEmpty" class="empty-history">No payment recorded for the included account months.</div>
+          <div id="paymentHistoryTable" style="display:none;overflow-x:auto;">
+            <table class="history-table"><thead><tr><th>Date</th><th>Method</th><th>Bank / Cheque</th><th>Reference</th><th>Notes</th><th class="money">Amount</th></tr></thead><tbody id="paymentRows"></tbody></table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="assets/firebase-init.js"></script>
+<script src="assets/customer-statement.js"></script>
+</body>
+</html>
