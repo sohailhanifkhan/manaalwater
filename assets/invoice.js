@@ -4,7 +4,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  const OWNER = 'info@manaalwater.com.pk';
+  const OWNER = 'manaalwater@gmail.com';
   const BANK_NAME = 'Faysal Bank Limited';
   const BANK_IBAN = 'PK32FAYS3019355000004293';
 
